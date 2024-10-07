@@ -47,7 +47,7 @@ void Room_object::unload_object()
     loaded = false;
 }
 
-bool Room_object::is_loaded() { return loaded;}
+
 
 std::string Room_object::save_object() {}
 
@@ -59,6 +59,8 @@ bool Room_object::has_collided(sf::Shape *body)
     this->body->getGlobalBounds().intersects(body->getGlobalBounds());
     }
 }
+
+bool Room_object::is_loaded() { return loaded;}
 
 sf::Vector2f Room_object::get_position() { return position;}
 
