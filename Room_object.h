@@ -19,12 +19,13 @@ public:
     virtual void draw_object(sf::RenderWindow display);
     virtual void load_object();
     virtual void unload_object();
-    bool is_loaded();
     std::string save_object(); // add later
     virtual bool has_collided(sf::Shape *body);
+    bool is_loaded();
+    void set_loaded(bool loaded);
     sf::Vector2f get_position();
     void set_position(sf::Vector2f position);
-    sf::Shape* get_body();
+    sf::Shape *get_body();
     void change_body_colour(sf::Vector3i colour);
     ~Room_object();
 };

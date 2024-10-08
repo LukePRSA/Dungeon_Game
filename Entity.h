@@ -30,6 +30,7 @@ public:
     int get_hp();
     void set_hp(int hp);
     bool is_alive();
+    void set_alive(bool alive);
 };
 
 #endif
