@@ -26,6 +26,7 @@ public:
     void set_position(sf::Vector2f position);
     sf::Shape* get_body();
     void change_body_colour(sf::Vector3i colour);
+    ~Room_object();
 };
 
 #endif

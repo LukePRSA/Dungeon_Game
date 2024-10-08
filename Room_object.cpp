@@ -75,3 +75,8 @@ void Room_object::change_body_colour(sf::Vector3i colour)
 {
     body->setFillColor(sf::Color(colour.x, colour.y, colour.z));
 }
+
+Room_object::~Room_object()
+{
+    delete body;
+}
