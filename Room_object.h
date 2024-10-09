@@ -4,6 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+enum Shape
+{
+square,
+circle
+};
+
 class Room_object
 {
     // general object in room, e.g. walls, exits and entrances
@@ -13,7 +19,7 @@ protected:
     bool loaded;
 
 public:
-    Room_object(std::string shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Room_object(Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Room_object(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Room_object();
     virtual void draw_object(sf::RenderWindow display);

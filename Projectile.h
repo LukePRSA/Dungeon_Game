@@ -14,7 +14,7 @@ private:
     int lifespan;
 
 public:
-    Projectile(int speed, int lifespan, std::string shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Projectile();
     void launch_projectile(int direction, sf::Vector2f position);

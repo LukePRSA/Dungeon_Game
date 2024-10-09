@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-Entity::Entity(int level, int xp, std::string shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(5 * level), max_hp(5 * level), Room_object(shape, width, colour, position) {}
+Entity::Entity(int level, int xp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(5 * level), max_hp(5 * level), Room_object(shape, width, colour, position) {}
 
 Entity::Entity(int level, int xp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(5 * level), max_hp(5 * level), Room_object(length, width, colour, position) {}
 

@@ -1,13 +1,13 @@
 #include "Room_object.h"
 
-Room_object::Room_object(std::string shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : position(position)
+Room_object::Room_object(Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : position(position)
 {
     // creates body as a square or circle, based on option
-    if (shape == "square")
+    if (shape == square)
     {
         body = new sf::RectangleShape(sf::Vector2f(width, width));
     }
-    if (shape == "circle")
+    if (shape == circle)
     {
         body = new sf::CircleShape(width / 2);
     }
@@ -26,7 +26,7 @@ Room_object::Room_object(int length, int width, sf::Vector3<short unsigned int> 
     unload_object();
 }
 
-Room_object::Room_object() : Room_object("square", 0, sf::Vector3<short unsigned int>(255, 255, 255), sf::Vector2f(0, 0)) {}
+Room_object::Room_object() : Room_object(square, 0, sf::Vector3<short unsigned int>(255, 255, 255), sf::Vector2f(0, 0)) {}
 
 void Room_object::draw_object(sf::RenderWindow display)
 {
@@ -69,6 +69,10 @@ sf::Vector2f Room_object::get_position() { return position; }
 void Room_object::set_position(sf::Vector2f position)
 {
     this->position = position;
+    if (loaded)
+    {
+        body->setPosition(position);
+    }
 }
 
 sf::Shape *Room_object::get_body() { return body; }

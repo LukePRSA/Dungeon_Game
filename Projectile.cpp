@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int speed, int lifespan, std::string shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : movement_speed(speed), lifespan(lifespan), Room_object(shape, size, colour, position) {}
+Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : movement_speed(speed), lifespan(lifespan), Room_object(shape, size, colour, position) {}
 
 Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : movement_speed(speed), lifespan(lifespan), Room_object(length, width, colour, position) {}
 
@@ -24,23 +24,20 @@ void Projectile::update()
     // causes projectile to move based on its speed in the given direction and increase its turns, or despawn it once it has exceeded them
     if (loaded && active)
     {
-        for (int i = 0; i < movement_speed / 5; i++)
+        switch (direction)
         {
-            switch (direction)
-            {
-            case 0:
-                body->move(position.x + 5, position.y);
-                break;
-            case 90:
-                body->setPosition(position.x, position.y + 5);
-                break;
-            case 180:
-                body->setPosition(position.x - 5, position.y);
-                break;
-            case 270:
-                body->setPosition(position.x, position.y - 5);
-                break;
-            }
+        case 0:
+            body->move(movement_speed, 0);
+            break;
+        case 90:
+            body->move(0, movement_speed);
+            break;
+        case 180:
+            body->move(-movement_speed, 0);
+            break;
+        case 270:
+            body->move(0, -movement_speed);
+            break;
         }
         position = body->getPosition();
         if (turns_since_launch >= lifespan)
