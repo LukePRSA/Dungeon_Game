@@ -20,7 +20,9 @@ public:
     void take_damage(int damage);
     void heal_hp(int hp_healed);
     virtual void kill_entity();
+    
     std::string save_object(); // add later
+
     int get_level();
     void set_level(int level);
     int get_xp();

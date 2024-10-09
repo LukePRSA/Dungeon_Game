@@ -28,9 +28,9 @@ Room_object::Room_object(int length, int width, sf::Vector3<short unsigned int> 
 
 Room_object::Room_object() : Room_object(square, 0, sf::Vector3<short unsigned int>(255, 255, 255), sf::Vector2f(0, 0)) {}
 
-void Room_object::draw_object(sf::RenderWindow display)
+void Room_object::draw_object(sf::RenderWindow *display)
 {
-    display.draw(*body);
+    display->draw(*body);
 }
 
 void Room_object::load_object()
@@ -68,6 +68,7 @@ sf::Vector2f Room_object::get_position() { return position; }
 
 void Room_object::set_position(sf::Vector2f position)
 {
+    // changes position of object. If loaded, it will also change its position on the display
     this->position = position;
     if (loaded)
     {

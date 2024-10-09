@@ -1,21 +1,38 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : movement_speed(speed), lifespan(lifespan), Room_object(shape, size, colour, position) {}
+Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), Room_object(shape, size, colour, sf::Vector2f(-1,-1)) {}
 
-Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : movement_speed(speed), lifespan(lifespan), Room_object(length, width, colour, position) {}
+Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), Room_object(length, width, colour, sf::Vector2f(-1,-1)) {}
 
 Projectile::Projectile() : movement_speed(0), lifespan(0), Room_object() {}
 
-void Projectile::launch_projectile(int direction, sf::Vector2f position)
+void Projectile::launch_projectile(Rotation direction, sf::Vector2f position)
 {
     // spawns projectile at position in given direction
     if (loaded)
     {
         active = true;
-        body->setPosition(position);
-        this->position = position;
-        this->direction = direction;
         turns_since_launch = 0;
+
+        this->position = position;
+        body->setPosition(position);
+        
+        this->direction = direction;
+        switch (direction)
+        {
+        case right:
+            body->setRotation(0);
+            break;
+        case down:
+            body->setRotation(90);
+            break;
+        case left:
+            body->setRotation(180);
+            break;
+        case up:
+            body->setRotation(270);
+            break;
+        }
     }
 }
 
@@ -26,16 +43,16 @@ void Projectile::update()
     {
         switch (direction)
         {
-        case 0:
+        case right:
             body->move(movement_speed, 0);
             break;
-        case 90:
+        case down:
             body->move(0, movement_speed);
             break;
-        case 180:
+        case left:
             body->move(-movement_speed, 0);
             break;
-        case 270:
+        case up:
             body->move(0, -movement_speed);
             break;
         }
@@ -50,10 +67,10 @@ void Projectile::update()
 
 void Projectile::despawn_projectile()
 {
-    // despawns projectile by moving it off-screen
+    // despawns projectile by moving it off-screen and setting its position to (-1, -1)
     active = false;
     body->setPosition(-1, -1);
-    position = body->getPosition();
+    position = sf::Vector2f(-1, -1);
 }
 
 bool Projectile::has_collided(sf::Shape *body)
@@ -71,9 +88,31 @@ bool Projectile::has_collided(sf::Shape *body)
     return false;
 }
 
-int Projectile::get_direction() { return direction; }
+Rotation Projectile::get_direction() { return direction; }
 
-void Projectile::set_direction(int direction) { this->direction = direction; }
+void Projectile::set_direction(Rotation direction)
+{
+    // changes direction of projectile. If loaded and active, it also changes its direction on the display
+    this->direction = direction;
+    if (active && loaded)
+    {
+        switch (direction)
+        {
+        case right:
+            body->move(movement_speed, 0);
+            break;
+        case down:
+            body->move(0, movement_speed);
+            break;
+        case left:
+            body->move(-movement_speed, 0);
+            break;
+        case up:
+            body->move(0, -movement_speed);
+            break;
+        }
+    }
+}
 
 bool Projectile::is_active() { return active; }
 

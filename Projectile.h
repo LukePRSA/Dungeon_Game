@@ -7,22 +7,24 @@ class Projectile : public Room_object
 {
     // a projectile used by entities as a ranged attack to deal damage
 private:
-    int direction;
+    Rotation direction = right;
     int movement_speed;
     bool active = false;
     int turns_since_launch;
     int lifespan;
 
 public:
-    Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
-    Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour);
+    Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour);
     Projectile();
-    void launch_projectile(int direction, sf::Vector2f position);
+    void launch_projectile(Rotation direction, sf::Vector2f position);
     void update();
     void despawn_projectile();
+    
     bool has_collided(sf::Shape *body);
-    int get_direction();
-    void set_direction(int direction);
+
+    Rotation get_direction();
+    void set_direction(Rotation direction);
     bool is_active();
     bool set_active(bool active);
     int get_movement_speed();

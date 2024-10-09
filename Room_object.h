@@ -3,12 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-
-enum Shape
-{
-square,
-circle
-};
+#include "Enums.h"
 
 class Room_object
 {
@@ -22,11 +17,12 @@ public:
     Room_object(Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Room_object(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Room_object();
-    virtual void draw_object(sf::RenderWindow display);
+    virtual void draw_object(sf::RenderWindow *display);
     virtual void load_object();
     virtual void unload_object();
     std::string save_object(); // add later
     virtual bool has_collided(sf::Shape *body);
+
     bool is_loaded();
     void set_loaded(bool loaded);
     sf::Vector2f get_position();

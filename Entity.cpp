@@ -44,7 +44,12 @@ std::string Entity::save_object() {}
 
 int Entity::get_level() { return level; }
 
-void Entity::set_level(int level) { this->level = level; }
+void Entity::set_level(int level)
+{
+    // sets level to given level and updates xp
+    this->level = level; 
+    max_hp = level * 5;
+}
 
 int Entity::get_xp() { return xp; }
 
