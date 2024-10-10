@@ -189,8 +189,18 @@ int main(){
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed){
                 window.close();
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+                std::cout << "next room" << std::endl;
+                if(dungeon_floor.get_active_room() + 1 < 5){
+                    dungeon_floor.set_active_room(dungeon_floor.get_active_room() + 1);
+                }
+                else{
+                    dungeon_floor.set_active_room(0);
+                }
+            }
         }
 
 
