@@ -36,7 +36,7 @@ public:
     void despawn_projectiles();
 
     void draw_object(sf::RenderWindow *display);
-    std::string save_object(); // add later
+    std::string save(); // add later
 
     int get_melee_damage();
     void set_melee_damage(int damage);
