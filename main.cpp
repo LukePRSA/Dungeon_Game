@@ -22,12 +22,26 @@ class Tile{
             tile_rect.setSize(sf::Vector2f(TILE_SIZE_TO_PIXELS, TILE_SIZE_TO_PIXELS));  // Set to the desired tile size
         };
 
+        void set_position(float x, float y) {
+            tile_rect.setPosition(x, y);
+        }
+
+        void set_fill_colour(sf::Color color) {
+            tile_rect.setFillColor(color);
+        }
+        const sf::RectangleShape& get_shape() const {
+            return tile_rect;
+        }
+
+        char get_type() const {
+            return tile_type;
+        }
 
 };
 class Room{
     private:
         std::vector<std::string> layout_room;
-        std::vector<Tile> tiles_room;
+        Tile ***tiles_room;
 
         void load_room(const std::string& filename) {
             std::ifstream file(filename);
@@ -48,10 +62,13 @@ class Room{
     public:
         Room(const std::string& file_name){
             load_room(file_name);
+            tiles_room = new Tile**[LENGTH_OF_ROOM];
 
             for(int i = 0 ; i < LENGTH_OF_ROOM ; i++){
-                for(int j = 0 ; i < WIDTH_OF_ROOM ; j++){
-                    tiles_room.push_back(Tile(layout_room[i][j]));  
+                tiles_room[i] = new Tile*[WIDTH_OF_ROOM];
+
+                for(int j = 0 ; j < WIDTH_OF_ROOM ; j++){
+                    tiles_room[i][j] = new Tile(layout_room[i][j]);
                 }
 
             }
@@ -60,48 +77,94 @@ class Room{
             return layout_room;
         }
 
-        std::vector<Tile> get_tiles(){
+        Tile*** get_tiles(){
             return tiles_room;
         }
 
 
+        ~Room() {
+        // Clean up dynamically allocated memory
+        for (int i = 0; i < LENGTH_OF_ROOM; ++i) {
+            for (int j = 0; j < WIDTH_OF_ROOM; ++j) {
+                delete tiles_room[i][j];  // Delete each Tile
+            }
+            delete[] tiles_room[i];  // Delete the row
+        }
+        delete[] tiles_room;  // Delete the array of rows
 
+
+        }
 };
 
 class DungeonFloor{
     private:
         Room **floor_one;
         sf::RenderWindow& window;
+        int active_room;
+
     public:
         DungeonFloor(sf::RenderWindow& window) : window(window) {
             floor_one = new Room*[NUM_ROOMS_PER_FLOOR];
 
-            const std::string file_path_rooms[NUM_ROOMS_PER_FLOOR + 1] = {"floor_layout/1.txt","floor_layout/2.txt", "floor_layout/3.txt", "floor_layout/4.txt", "floor_layout/5.txt"};
+            const std::string file_path_rooms[NUM_ROOMS_PER_FLOOR] = {"floor_layout/1.txt","floor_layout/2.txt", "floor_layout/3.txt", "floor_layout/4.txt", "floor_layout/5.txt"};
             for(int i = 0 ; i < NUM_ROOMS_PER_FLOOR ; i ++){
                 floor_one[i] = new Room(file_path_rooms[i]);
             }
+
+            this->active_room = 0;
         
         }
 
-        void draw_room_by_num(int room_num){
-            sf::RectangleShape tile(sf::Vector2f(TILE_SIZE_TO_PIXELS, TILE_SIZE_TO_PIXELS));
+        void draw_room(){
     
-            for(size_t i = 0 ; i < floor_one[room_num]->get_layout_room().size(); i ++){
-                for(size_t j = 0 ; j < floor_one[room_num]->get_layout_room()[i].size(); j++){
-                    sf::RectangleShape tile(sf::Vector2f(TILE_SIZE_TO_PIXELS, TILE_SIZE_TO_PIXELS));
-                    tile.setPosition(j * TILE_SIZE_TO_PIXELS, i * TILE_SIZE_TO_PIXELS);
+            for(int i = 0 ; i < LENGTH_OF_ROOM ; i ++){
+                for(int j = 0 ; j < WIDTH_OF_ROOM ; j++){
+                    
+                    Tile* tile_in_loop = floor_one[active_room]->get_tiles()[i][j];
 
-                    if(floor_one[room_num]->get_layout_room()[i][j] == '#'){
-                        tile.setFillColor(sf::Color::Blue);    //wall colour
+                    tile_in_loop->set_position(j * TILE_SIZE_TO_PIXELS, i * TILE_SIZE_TO_PIXELS);
+
+                    if(tile_in_loop->get_type() == '#'){
+                        tile_in_loop->set_fill_colour(sf::Color::Blue);    //wall colour
                     } 
-                    else if(floor_one[room_num]->get_layout_room()[i][j] == '.'){
-                        tile.setFillColor(sf::Color::White);    //free space colour
+                    else if(tile_in_loop->get_type() == '.'){
+                        tile_in_loop->set_fill_colour(sf::Color::White);    //free space colour
                     }
-                    window.draw(tile);
+                    window.draw(tile_in_loop->get_shape());
                 }
 
             }
+            
         }
+
+    
+    int get_active_room(){
+        return active_room;
+    }
+
+    void set_active_room(int room_num){
+        this-> active_room = room_num;
+    }
+
+
+    bool testing_mouse_collision(sf::Vector2i mouse_pos){
+            
+            for(int i = 0 ; i < LENGTH_OF_ROOM ; i++){
+                for(int j = 0 ; j < WIDTH_OF_ROOM; j++){
+                    if (floor_one[active_room]->get_tiles()[i][j]->get_shape().getGlobalBounds().contains(static_cast<sf::Vector2f>(mouse_pos))){
+
+                        std::cout << "COLLIDE";
+                        return true;
+                    }    
+                    else{
+
+                        //std::cout << "NOPE";
+                    }
+                }
+            }
+            return false;
+        }
+
     ~DungeonFloor() {
             // Clean up dynamically allocated memory
             for (int i = 0; i < NUM_ROOMS_PER_FLOOR; ++i) {
@@ -119,7 +182,7 @@ class DungeonFloor{
 int main(){
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Template");
     DungeonFloor dungeon_floor(window);
-
+    
 
     while (window.isOpen())
     {
@@ -135,7 +198,13 @@ int main(){
 
         
     
-        dungeon_floor.draw_room_by_num(0);
+        dungeon_floor.draw_room();
+
+        //testing
+        sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); // mouse pos for testing.
+        dungeon_floor.testing_mouse_collision(mouse_pos);
+
+
 
         window.display();
     }
