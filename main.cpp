@@ -130,6 +130,18 @@ class DungeonFloor{
                     else if(tile_in_loop->get_type() == '.'){
                         tile_in_loop->set_fill_colour(sf::Color::White);    //free space colour
                     }
+                    else if(tile_in_loop->get_type() == 'E'){
+                        tile_in_loop->set_fill_colour(sf::Color::Red); // enemy colour
+                    }
+                    else if(tile_in_loop->get_type() == 'L'){
+                        tile_in_loop->set_fill_colour(sf::Color::Green); // exit colour
+                    }
+                    else if(tile_in_loop->get_type() == 'C'){
+                        tile_in_loop->set_fill_colour(sf::Color::Magenta); // chest colour
+                    }
+                    else if(tile_in_loop->get_type() == 'P'){
+                        tile_in_loop->set_fill_colour(sf::Color::Black); // player colour
+                    }
                     window.draw(tile_in_loop->get_shape());
                 }
 
@@ -192,13 +204,15 @@ int main(){
             if (event.type == sf::Event::Closed){
                 window.close();
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-                std::cout << "next room" << std::endl;
-                if(dungeon_floor.get_active_room() + 1 < 5){
-                    dungeon_floor.set_active_room(dungeon_floor.get_active_room() + 1);
-                }
-                else{
-                    dungeon_floor.set_active_room(0);
+            if(event.type == sf::Event::KeyPressed){
+                if (event.key.code == sf::Keyboard::W){
+                    std::cout << "next room" << std::endl;
+                    if(dungeon_floor.get_active_room() + 1 < 5){
+                        dungeon_floor.set_active_room(dungeon_floor.get_active_room() + 1);
+                    }
+                    else{
+                        dungeon_floor.set_active_room(0);
+                    }
                 }
             }
         }
@@ -212,8 +226,8 @@ int main(){
 
         //testing
         sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); // mouse pos for testing.
-        dungeon_floor.testing_mouse_collision(mouse_pos);
-
+        //dungeon_floor.testing_mouse_collision(mouse_pos);
+        std::cout << "Currently on floor: " << dungeon_floor.get_active_room() + 1<< std::endl;
 
 
         window.display();
