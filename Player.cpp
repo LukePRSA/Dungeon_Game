@@ -1,7 +1,21 @@
 #include "Player.h"
 
-Player::Player(int level, int xp, int movement_speed, sf::Vector2f position); // make sure to load object
-Player::Player(); // make sure to load object
+Player::Player(int level, int xp, int movement_speed, sf::Vector2f position) : movement_speed(movement_speed), Entity(level, xp, circle, 50, sf::Vector3<short unsigned int>(0, 255, 255), position)
+{
+    melee_damage = level * 4;
+    ranged_damage = level * 3;
+    load_object();
+    melee_attack.load_object();
+    for (int i = 0; i < 3; i++)
+    {
+        ranged_projectiles[i].load_object();
+    }
+}
+
+Player::Player() : Player(1, 0, 1, sf::Vector2f(-1, -1))
+{
+    load_object();
+}
 
 void Player::move_right()
 {
@@ -36,29 +50,32 @@ void Player::move_up()
     body->move(0, -movement_speed);
     position = body->getPosition();
     body->setRotation(270);
-    rotation = up;    
+    rotation = up;
 }
 
 void Player::dodge()
 {
-    // move player by double their movement speed in their current direction
+    // move player by double their movement speed in their current direction if dodge is off cooldown
     int speed_multiplier = 2;
-    switch (rotation)
+    if (dodge_cooldown <= 0)
     {
+        switch (rotation)
+        {
         case right:
-        body->move(speed_multiplier*movement_speed, 0);
-        break;
+            body->move(speed_multiplier * movement_speed, 0);
+            break;
         case down:
-        body->move(0, speed_multiplier*movement_speed);
-        break;
+            body->move(0, speed_multiplier * movement_speed);
+            break;
         case left:
-        body->move(-speed_multiplier*movement_speed, 0);
-        break;
+            body->move(-speed_multiplier * movement_speed, 0);
+            break;
         case up:
-        body->move(0, -speed_multiplier*movement_speed);
-        break;
+            body->move(0, -speed_multiplier * movement_speed);
+            break;
+        }
+        position = body->getPosition();
     }
-    position = body->getPosition();
 }
 
 void Player::gain_xp(int xp)
@@ -75,11 +92,80 @@ void Player::gain_xp(int xp)
     }
 }
 
-void Player::attack_close();
-void Player::attack_long();
-bool Player::has_melee_attack_hit(Shape *body);
-bool Player::has_ranged_projectile_hit(Shape *body);
-void Player::update();
+void Player::attack_close()
+{
+    // spawns a melee attack in the direction of the player
+    if (melee_attack.is_active() == false)
+    {
+        switch (rotation)
+        {
+        case right:
+            melee_attack.launch_projectile(right, position + sf::Vector2f(29, 0));
+            break;
+            case down:
+            melee_attack.launch_projectile(down, position + sf::Vector2f(0, 29));
+            break;
+            case left:
+            melee_attack.launch_projectile(left, position + sf::Vector2f(-29, 0));
+            break;
+            case up:
+            melee_attack.launch_projectile(up, position + sf::Vector2f(0, -29));
+            break;
+        }
+    }
+}
+
+void Player::attack_long()
+{
+    // spawns a ranged projectile in current one if there is one inactive and without cooldown
+    for (int i = 0; i < 3; i++)
+    {
+        if (projectile_cooldowns[i] <= 0 && ranged_projectiles[i].is_active() == false)
+        {
+            ranged_projectiles[i].launch_projectile(rotation, position);
+            projectile_cooldowns[i] = max_projectile_cooldown;
+            break;
+        }
+    }
+}
+
+bool Player::has_melee_attack_hit(sf::Shape *body)
+{
+    // reutrns true if the player's active melee attack has hit
+    return melee_attack.has_collided(body);
+}
+
+bool Player::has_ranged_projectile_hit(sf::Shape *body)
+{
+    // returns true if any of the player's active ranged projectiles has hit
+    bool hit = false;
+    for (int i = 0; i < 3; i++)
+    {
+        hit = ranged_projectiles[i].has_collided(body);
+    }
+    return hit;
+}
+
+void Player::update()
+{
+    // updates movements of projectiles and decreases cooldowns if above 0
+    melee_attack.update();
+    for (int i = 0; i < 3; i++)
+    {
+        ranged_projectiles[i].update();
+    }
+    if (dodge_cooldown > 0)
+    {
+        dodge_cooldown--;
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        if (projectile_cooldowns[i] > 0)
+        {
+            projectile_cooldowns[i]--;
+        }
+    }
+}
 
 void Player::despawn_projectiles()
 {
@@ -114,9 +200,9 @@ Rotation Player::get_rotation() { return rotation; }
 
 void Player::set_Rotation(Rotation rotation) { this->rotation = rotation; }
 
-Projectile* Player::get_melee_attack() { return &melee_attack; }
+Projectile *Player::get_melee_attack() { return &melee_attack; }
 
-Projectile* Player::get_ranged_projectiles() { return ranged_projectiles; }
+Projectile *Player::get_ranged_projectiles() { return ranged_projectiles; }
 
 int Player::get_max_projectile_cooldown() { return max_projectile_cooldown; }
 

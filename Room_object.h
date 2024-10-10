@@ -20,7 +20,6 @@ public:
     virtual void draw_object(sf::RenderWindow *display);
     virtual void load_object();
     virtual void unload_object();
-    std::string save_object(); // add later
     virtual bool has_collided(sf::Shape *body);
 
     bool is_loaded();

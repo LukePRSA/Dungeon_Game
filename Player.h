@@ -10,9 +10,9 @@ class Player : public Entity
 private:
     int melee_damage;
     int ranged_damage;
-    Rotation rotation;
-    Projectile melee_attack;
-    Projectile ranged_projectiles[3];
+    Rotation rotation = right;
+    Projectile melee_attack{0, 1, 60, 160, sf::Vector3<short unsigned int>(0, 255, 128)};
+    Projectile ranged_projectiles[3]{{58, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)},{1, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)},{1, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)}};
     int max_projectile_cooldown = 10;
     int projectile_cooldowns[3] = {0};
     int max_dodge_cooldown = 3;
@@ -20,7 +20,7 @@ private:
     int movement_speed;
 
 public:
-    Player(int level, int xp, int movement_speed);
+    Player(int level, int xp, int movement_speed, sf::Vector2f position);
     Player();
     void move_right();
     void move_down();
@@ -30,12 +30,13 @@ public:
     void gain_xp(int xp);
     void attack_close();
     void attack_long();
-    bool has_melee_attack_hit(Shape *body);
-    bool has_ranged_projectile_hit(Shape *body);
+    bool has_melee_attack_hit(sf::Shape *body);
+    bool has_ranged_projectile_hit(sf::Shape *body);
     void update();
     void despawn_projectiles();
 
     void draw_object(sf::RenderWindow *display);
+    std::string save_object(); // add later
 
     int get_melee_damage();
     void set_melee_damage(int damage);

@@ -40,8 +40,6 @@ void Entity::kill_entity()
     body->setPosition(sf::Vector2f(-1, -1));
 }
 
-std::string Entity::save_object() {}
-
 int Entity::get_level() { return level; }
 
 void Entity::set_level(int level)

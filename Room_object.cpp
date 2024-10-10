@@ -47,8 +47,6 @@ void Room_object::unload_object()
     loaded = false;
 }
 
-std::string Room_object::save_object() {}
-
 bool Room_object::has_collided(sf::Shape *body)
 {
     // returns true if Room_object has collided with the given body
