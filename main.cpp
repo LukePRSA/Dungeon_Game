@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-const int TILE_SIZE_TO_PIXELS = 96;
+const int TILE_SIZE_TO_PIXELS = 100;
 
 
 
