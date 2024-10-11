@@ -102,13 +102,13 @@ void Player::attack_close()
         case right:
             melee_attack.launch_projectile(right, position + sf::Vector2f(29, 0));
             break;
-            case down:
+        case down:
             melee_attack.launch_projectile(down, position + sf::Vector2f(0, 29));
             break;
-            case left:
+        case left:
             melee_attack.launch_projectile(left, position + sf::Vector2f(-29, 0));
             break;
-            case up:
+        case up:
             melee_attack.launch_projectile(up, position + sf::Vector2f(0, -29));
             break;
         }
