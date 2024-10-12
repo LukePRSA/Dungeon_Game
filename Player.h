@@ -4,9 +4,9 @@
 #include "Entity.h"
 #include "Projectile.h"
 
+// Represents the user-controlled player in the game with movements and attacks.
 class Player : public Entity
 {
-    // represents the player in the game, controllable by user input
 private:
     int melee_damage;
     int ranged_damage;
@@ -17,10 +17,10 @@ private:
     int projectile_cooldowns[3] = {0};
     int max_dodge_cooldown = 3;
     int dodge_cooldown = 0;
-    int movement_speed;
+    int movement_speed = 58;
 
 public:
-    Player(int level, int xp, int movement_speed, sf::Vector2f position);
+    Player(int level, int xp, sf::Vector2f position);
     Player();
     void move_right();
     void move_down();

@@ -1,11 +1,11 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "Room_object.h"
+#include "RoomObject.h"
 
-class Projectile : public Room_object
+// A projectile used by entities as a ranged attack to deal damage.
+class Projectile : public RoomObject
 {
-    // a projectile used by entities as a ranged attack to deal damage
 private:
     Rotation direction = right;
     int movement_speed;

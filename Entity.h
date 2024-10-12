@@ -1,21 +1,21 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "Room_object.h"
+#include "RoomObject.h"
 
-class Entity : public Room_object
+// Killable entity with hp and level.
+class Entity : public RoomObject
 {
-    // general killable entity with hp and level in a room, e.g. a breakable wall, and used for later classes
 protected:
     int level;
     int xp;
-    int max_hp; // max hp is 5 * level
+    int max_hp;
     int hp;
     bool alive = true;
 
 public:
-    Entity(int level, int xp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
-    Entity(int level, int xp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Entity(int level, int xp, int max_hp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Entity();
     void take_damage(int damage);
     void heal_hp(int hp_healed);

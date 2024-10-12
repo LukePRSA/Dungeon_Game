@@ -5,18 +5,18 @@
 #include <string>
 #include "Enums.h"
 
-class Room_object
+// General object in room, e.g. walls, exits and entrances.
+class RoomObject
 {
-    // general object in room, e.g. walls, exits and entrances
 protected:
     sf::Shape *body;
     sf::Vector2f position;
     bool loaded;
 
 public:
-    Room_object(Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
-    Room_object(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
-    Room_object();
+    RoomObject(Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    RoomObject(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    RoomObject();
     virtual void draw_object(sf::RenderWindow *display);
     virtual void load_object();
     virtual void unload_object();
@@ -27,8 +27,7 @@ public:
     sf::Vector2f get_position();
     void set_position(sf::Vector2f position);
     sf::Shape *get_body();
-    void change_body_colour(sf::Vector3i colour);
-    ~Room_object();
+    ~RoomObject();
 };
 
 #endif

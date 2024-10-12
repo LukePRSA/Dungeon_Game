@@ -6,4 +6,6 @@ changed approach_player function parameter of Melee_enemy class to just use a ve
 
 added calculator functions to Enemy class for distance in vector and scalar form of an enemy to simplify perform_ai functions in its children
 
+removed change_body_colour from Room_object class as it can be easily replicated using get_body()->setFillColor
+
 NOTE TO SELF: PUT COMMENTS ABOVE FUNCTIONS SO THE DESCRIPTION APPEARS WHEN HOVERED OVER

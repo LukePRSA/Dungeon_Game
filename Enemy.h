@@ -4,9 +4,9 @@
 #include "Entity.h"
 #include <cmath>
 
+// Abstract class representing an enemy with some AI.
 class Enemy : public Entity
 {
-    // abstract class representing an enemy in a room
 protected:
     int damage;
     int max_cooldown;
@@ -14,7 +14,7 @@ protected:
     int max_range;
 
 public:
-    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
     Enemy();
     virtual void perform_ai(sf::Vector2f player_position) = 0;
     virtual void update_attacks() = 0;

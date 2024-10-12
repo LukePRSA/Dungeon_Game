@@ -1,15 +1,11 @@
-#include "Melee_enemy.h"
+#include "MeleeEnemy.h"
 
-Melee_enemy::Melee_enemy(int level, int xp)
-{
-}
+MeleeEnemy::MeleeEnemy(int level, int max_range, int max_cooldown, sf::Vector2f position): Enemy(level * 3, max_cooldown, max_range, level, xp, level * 5, circle, 50, sf::Vector3<short unsigned int>(255, 64, 0), position) {}
 
-Melee_enemy::Melee_enemy()
-{
-}
+MeleeEnemy::MeleeEnemy(): MeleeEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Approaches player using the shortest distance that is above or equal to its movement speed.
-void Melee_enemy::approach_player(sf::Vector2f player_distance_vector)
+void MeleeEnemy::approach_player(sf::Vector2f player_distance_vector)
 {
     float shortest_distance = player_distance_vector.x;
     bool is_y_distance = false;
@@ -41,9 +37,9 @@ void Melee_enemy::approach_player(sf::Vector2f player_distance_vector)
     } 
 }
 
-void Melee_enemy::attack()
-{
-    // creates melee attack projectile in front of enemy if the melee_attack is not currently active and its attack cooldown is zero or lower
+// Creates melee attack projectile in front of enemy if the melee_attack is not currently active and its attack cooldown is zero or lower.
+void MeleeEnemy::attack()
+{ 
     if (melee_attack.is_active() == false && attack_cooldown <= 0)
     {
         switch (rotation)
@@ -65,9 +61,9 @@ void Melee_enemy::attack()
     }
 }
 
-void Melee_enemy::perform_ai(sf::Vector2f player_position)
+// If loaded, attacks player if nearly within melee attack range, else approaches player if within max_range.
+void MeleeEnemy::perform_ai(sf::Vector2f player_position)
 {
-    // if loaded, attacks player if nearly within melee attack range, else approaches player if within max_range
     if (loaded)
     {
         float player_distance = find_distance(player_position);
@@ -85,38 +81,38 @@ void Melee_enemy::perform_ai(sf::Vector2f player_position)
     }
 }
 
-void Melee_enemy::update_attacks()
+// Updates melee_attack projectile.
+void MeleeEnemy::update_attacks()
 {
-    // updates melee_attack projectile
     melee_attack.update();
 }
 
-bool Melee_enemy::has_collided(sf::Shape *body)
+// Returns true if the enemy's attack projectile has hit.
+bool MeleeEnemy::has_collided(sf::Shape *body)
 {
-    // returns true if the enemy's attack projectile has hit
     return melee_attack.has_collided(body);
 }
 
-void Melee_enemy::load_object()
+// Loads enemy and its projectile.
+void MeleeEnemy::load_object()
 {
-    // also loads enemy projectile
     Enemy::load_object();
     melee_attack.load_object();
 }
 
-void Melee_enemy::unload_object()
+// Unloads enemy and its projectile.
+void MeleeEnemy::unload_object()
 {
-    // also unloads enemy projectile
     Enemy::unload_object();
     melee_attack.unload_object();
 }
 
-Projectile *Melee_enemy::get_melee_attack() { return &melee_attack; }
+Projectile *MeleeEnemy::get_melee_attack() { return &melee_attack; }
 
-int Melee_enemy::get_movement_speed() { return movement_speed; }
+int MeleeEnemy::get_movement_speed() { return movement_speed; }
 
-void Melee_enemy::set_movement_speed(int speed) { movement_speed = speed; }
+void MeleeEnemy::set_movement_speed(int speed) { movement_speed = speed; }
 
-Rotation Melee_enemy::get_rotation() { return rotation; }
+Rotation MeleeEnemy::get_rotation() { return rotation; }
 
-void Melee_enemy::set_rotation(Rotation rotation) { this->rotation = rotation; }
+void MeleeEnemy::set_rotation(Rotation rotation) { this->rotation = rotation; }

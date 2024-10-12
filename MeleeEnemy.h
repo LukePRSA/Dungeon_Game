@@ -4,9 +4,9 @@
 #include "Enemy.h"
 #include "Projectile.h"
 
-class Melee_enemy : public Enemy
-{
-    // represents an enemy that approaches the player when in range and attacks them if close enough
+// Represents an enemy that approaches the player when in range and attacks them if close enough.
+class MeleeEnemy : public Enemy
+{  
 private:
     Projectile melee_attack{0, 1, 60, 160, sf::Vector3<short unsigned int>(255, 60, 60)};
     int movement_speed;
@@ -15,8 +15,8 @@ private:
     void attack();
 
 public:
-    Melee_enemy(int level, int xp);
-    Melee_enemy();
+    MeleeEnemy(int level, int max_range, int max_cooldown, sf::Vector2f position);
+    MeleeEnemy();
     void perform_ai(sf::Vector2f player_position);
     void update_attacks();
 

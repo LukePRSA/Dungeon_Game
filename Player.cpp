@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(int level, int xp, int movement_speed, sf::Vector2f position) : movement_speed(movement_speed), Entity(level, xp, circle, 50, sf::Vector3<short unsigned int>(0, 255, 255), position)
+// 
+Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Vector3<short unsigned int>(0, 255, 255), position)
 {
     melee_damage = level * 4;
     ranged_damage = level * 3;
@@ -10,52 +11,54 @@ Player::Player(int level, int xp, int movement_speed, sf::Vector2f position) : m
     {
         ranged_projectiles[i].load_object();
     }
+    body->setOutlineThickness(1);
 }
 
-Player::Player() : Player(1, 0, 1, sf::Vector2f(-1, -1))
+// Initial level 1 player. Must set position afterwards.
+Player::Player() : Player(1, 0, sf::Vector2f(-1, -1))
 {
     load_object();
 }
 
+// Move player to the right by their movement speed and rotate body to that direction.
 void Player::move_right()
 {
-    // move player to the right by their movement speed and rotate body to that direction
     body->move(movement_speed, 0);
     position = body->getPosition();
     body->setRotation(0);
     rotation = right;
 }
 
+// Move player downward by their movement speed and rotate body to that direction.
 void Player::move_down()
 {
-    // move player downward by their movement speed and rotate body to that direction
     body->move(0, movement_speed);
     position = body->getPosition();
     body->setRotation(90);
     rotation = down;
 }
 
+// Move player to the left by their movement speed and rotate body to that direction.
 void Player::move_left()
 {
-    // move player to the left by their movement speed and rotate body to that direction
     body->move(-movement_speed, 0);
     position = body->getPosition();
     body->setRotation(180);
     rotation = left;
 }
 
+// Move player upward by their movement speed and rotate body to that direction.
 void Player::move_up()
 {
-    // move player upward by their movement speed and rotate body to that direction
     body->move(0, -movement_speed);
     position = body->getPosition();
     body->setRotation(270);
     rotation = up;
 }
 
+// Move player by double their movement speed in their current direction if dodge is off cooldown.
 void Player::dodge()
 {
-    // move player by double their movement speed in their current direction if dodge is off cooldown
     int speed_multiplier = 2;
     if (dodge_cooldown <= 0)
     {
@@ -78,9 +81,9 @@ void Player::dodge()
     }
 }
 
+// Increase xp by given amount. If above 10 times level, levels up, increasing stats.
 void Player::gain_xp(int xp)
 {
-    // increase xp by given amount. If above 10 times level, levels up, increasing stats
     this->xp += xp;
     if (this->xp >= 10 * level)
     {
@@ -92,9 +95,9 @@ void Player::gain_xp(int xp)
     }
 }
 
+// Spawns a melee attack in the direction of the player.
 void Player::attack_close()
 {
-    // spawns a melee attack in the direction of the player
     if (melee_attack.is_active() == false)
     {
         switch (rotation)
@@ -115,9 +118,9 @@ void Player::attack_close()
     }
 }
 
+// Spawns a ranged projectile in current one if there is one inactive and without cooldown.
 void Player::attack_long()
 {
-    // spawns a ranged projectile in current one if there is one inactive and without cooldown
     for (int i = 0; i < 3; i++)
     {
         if (projectile_cooldowns[i] <= 0 && ranged_projectiles[i].is_active() == false)
@@ -129,15 +132,15 @@ void Player::attack_long()
     }
 }
 
+// Returns true if the player's active melee attack has hit.
 bool Player::has_melee_attack_hit(sf::Shape *body)
 {
-    // reutrns true if the player's active melee attack has hit
     return melee_attack.has_collided(body);
 }
 
+// Returns true if any of the player's active ranged projectiles has hit.
 bool Player::has_ranged_projectile_hit(sf::Shape *body)
 {
-    // returns true if any of the player's active ranged projectiles has hit
     bool hit = false;
     for (int i = 0; i < 3; i++)
     {
@@ -146,9 +149,9 @@ bool Player::has_ranged_projectile_hit(sf::Shape *body)
     return hit;
 }
 
+// Updates movements of projectiles and decreases cooldowns if above 0.
 void Player::update()
 {
-    // updates movements of projectiles and decreases cooldowns if above 0
     melee_attack.update();
     for (int i = 0; i < 3; i++)
     {
@@ -167,9 +170,9 @@ void Player::update()
     }
 }
 
+// Despawns all active player projectiles
 void Player::despawn_projectiles()
 {
-    // despawns all active player projectiles
     melee_attack.despawn_projectile();
     for (int i = 0; i < 3; i++)
     {
@@ -177,10 +180,10 @@ void Player::despawn_projectiles()
     }
 }
 
+// Draws player and all their projectiles onto given display.
 void Player::draw_object(sf::RenderWindow *display)
 {
-    // overridden to also include projectiles
-    Room_object::draw_object(display);
+    RoomObject::draw_object(display);
     melee_attack.draw_object(display);
     for (int i = 0; i < 3; i++)
     {

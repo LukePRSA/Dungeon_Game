@@ -1,14 +1,16 @@
 #include "Projectile.h"
 
-Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), Room_object(shape, size, colour, sf::Vector2f(-1,-1)) {}
+// Creates a circular/square projectile.
+Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
 
-Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), Room_object(length, width, colour, sf::Vector2f(-1,-1)) {}
+// Creates a rectangular projectile.
+Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), RoomObject(length, width, colour, sf::Vector2f(-1,-1)) {}
 
-Projectile::Projectile() : movement_speed(0), lifespan(0), Room_object() {}
+Projectile::Projectile() : movement_speed(0), lifespan(0), RoomObject() {}
 
+// Spawns projectile at given position in given direction.
 void Projectile::launch_projectile(Rotation direction, sf::Vector2f position)
 {
-    // spawns projectile at position in given direction
     if (loaded)
     {
         active = true;
@@ -36,9 +38,9 @@ void Projectile::launch_projectile(Rotation direction, sf::Vector2f position)
     }
 }
 
+// Causes projectile to move based on its speed in the given direction and increase its number of turns since launch, or despawn it once it has exceeded its lifespan.
 void Projectile::update()
 {
-    // causes projectile to move based on its speed in the given direction and increase its turns, or despawn it once it has exceeded them
     if (loaded && active)
     {
         switch (direction)
@@ -65,17 +67,17 @@ void Projectile::update()
     }
 }
 
+// Despawns projectile by moving it off-screen and setting its position to (-1, -1).
 void Projectile::despawn_projectile()
 {
-    // despawns projectile by moving it off-screen and setting its position to (-1, -1)
     active = false;
     body->setPosition(-1, -1);
     position = sf::Vector2f(-1, -1);
 }
 
+// Returns true if collided with body and active, also despawns projectile if true.
 bool Projectile::has_collided(sf::Shape *body)
 {
-    // overridden to only work if loaded and active and despawn the projectile if true
     if (loaded && active)
     {
         bool collided = this->body->getGlobalBounds().intersects(body->getGlobalBounds());
@@ -90,9 +92,9 @@ bool Projectile::has_collided(sf::Shape *body)
 
 Rotation Projectile::get_direction() { return direction; }
 
+// Changes direction of projectile. If loaded and active, it also changes its direction on the display.
 void Projectile::set_direction(Rotation direction)
 {
-    // changes direction of projectile. If loaded and active, it also changes its direction on the display
     this->direction = direction;
     if (active && loaded)
     {

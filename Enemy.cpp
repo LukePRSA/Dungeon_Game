@@ -1,18 +1,18 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position): damage(damage), max_cooldown(max_cooldown), Entity(level, xp, shape, width, colour, position) {}
+Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position): damage(damage), max_cooldown(max_cooldown), Entity(level, xp, hp, shape, width, colour, position) {}
 
 Enemy::Enemy(): damage(0), max_cooldown(0), max_range(0), Entity() {}
 
+// Finds vector displacement of given position from enemy.
 sf::Vector2f Enemy::find_distance_vector(sf::Vector2f position)
 {
-    // finds distance of given position from enemy in vector form
-    return position - this->position;
+    return (position - this->position);
 }
 
+// Finds scalar distance of enemy from position.
 float Enemy::find_distance(sf::Vector2f position)
 {
-    // finds scalar distance of enemy from position
     sf::Vector2f distance_vector = find_distance_vector(position);
     return sqrt(pow(distance_vector.x, 2) + pow(distance_vector.y, 2));
 }

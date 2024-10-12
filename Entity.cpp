@@ -1,14 +1,14 @@
 #include "Entity.h"
 
-Entity::Entity(int level, int xp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(5 * level), max_hp(5 * level), Room_object(shape, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
 
-Entity::Entity(int level, int xp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(5 * level), max_hp(5 * level), Room_object(length, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(length, width, colour, position) {}
 
-Entity::Entity() : level(0), xp(0), hp(0), max_hp(0), Room_object() {}
+Entity::Entity() : level(0), xp(0), hp(0), max_hp(0), RoomObject() {}
 
+// Reduces Entity's hp if it is alive, and kills it if its hp drops below zero.
 void Entity::take_damage(int damage)
 {
-    // reduces Entity's hp if it is alive, and kills it if its hp drops below zero
     if (alive)
     {
         hp -= damage;
@@ -18,9 +18,10 @@ void Entity::take_damage(int damage)
         }
     }
 }
+
+// Increases Entity's hp if it is alive and under max_hp.
 void Entity::heal_hp(int hp_healed)
 {
-    // increases Entity's hp if it is alive and under max_hp
     if (alive && hp < max_hp)
     {
         hp += hp_healed;
@@ -31,9 +32,9 @@ void Entity::heal_hp(int hp_healed)
     }
 }
 
+// Moves entity off-screen, sets hp to 0 and sets alive to false.
 void Entity::kill_entity()
 {
-    // moves entity off-screen, sets hp to 0 and sets alive to false
     hp = 0;
     alive = false;
     position = sf::Vector2f(-1, -1);
@@ -42,12 +43,7 @@ void Entity::kill_entity()
 
 int Entity::get_level() { return level; }
 
-void Entity::set_level(int level)
-{
-    // sets level to given level and updates xp
-    this->level = level; 
-    max_hp = level * 5;
-}
+void Entity::set_level(int level) { this->level = level; }
 
 int Entity::get_xp() { return xp; }
 
