@@ -8,4 +8,6 @@ added calculator functions to Enemy class for distance in vector and scalar form
 
 removed change_body_colour from Room_object class as it can be easily replicated using get_body()->setFillColor
 
+replaced Vector3 instances used for colour of an object's body with the sfml class for colours, Color
+
 NOTE TO SELF: PUT COMMENTS ABOVE FUNCTIONS SO THE DESCRIPTION APPEARS WHEN HOVERED OVER
