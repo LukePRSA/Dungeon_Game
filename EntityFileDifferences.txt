@@ -10,4 +10,4 @@ removed change_body_colour from Room_object class as it can be easily replicated
 
 replaced Vector3 instances used for colour of an object's body with the sfml class for colours, Color
 
-NOTE TO SELF: PUT COMMENTS ABOVE FUNCTIONS SO THE DESCRIPTION APPEARS WHEN HOVERED OVER
+added is_triggered and toggle_active functions to Trap class to differentiate the trigger from has_collided of RoomObject and to allow traps to be disarmed

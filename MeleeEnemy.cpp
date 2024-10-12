@@ -85,10 +85,14 @@ void MeleeEnemy::perform_ai(sf::Vector2f player_position)
     }
 }
 
-// Updates melee_attack projectile.
+// Updates melee_attack projectile and decreases positive cooldown by one.
 void MeleeEnemy::update_attacks()
 {
     melee_attack.update();
+    if (attack_cooldown > 0)
+    {
+        attack_cooldown--;
+    }
 }
 
 // Returns true if the enemy's attack projectile has hit.
