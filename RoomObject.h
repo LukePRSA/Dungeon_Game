@@ -14,8 +14,8 @@ protected:
     bool loaded;
 
 public:
-    RoomObject(Shape shape, int size, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
-    RoomObject(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    RoomObject(Shape shape, int size, sf::Color colour, sf::Vector2f position);
+    RoomObject(int length, int width, sf::Color colour, sf::Vector2f position);
     RoomObject();
     virtual void draw_object(sf::RenderWindow *display);
     virtual void load_object();

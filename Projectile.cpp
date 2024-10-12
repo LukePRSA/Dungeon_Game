@@ -1,10 +1,10 @@
 #include "Projectile.h"
 
 // Creates a circular/square projectile.
-Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
+Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
 
 // Creates a rectangular projectile.
-Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Vector3<short unsigned int> colour) : movement_speed(speed), lifespan(lifespan), RoomObject(length, width, colour, sf::Vector2f(-1,-1)) {}
+Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(length, width, colour, sf::Vector2f(-1,-1)) {}
 
 Projectile::Projectile() : movement_speed(0), lifespan(0), RoomObject() {}
 

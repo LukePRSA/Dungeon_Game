@@ -1,8 +1,9 @@
 #include "MeleeEnemy.h"
 
-MeleeEnemy::MeleeEnemy(int level, int max_range, int max_cooldown, sf::Vector2f position): Enemy(level * 3, max_cooldown, max_range, level, xp, level * 5, circle, 50, sf::Vector3<short unsigned int>(255, 64, 0), position) {}
+// Creates melee enemy with damage 3 times level, xp 4 times level and hp 5 times level.
+MeleeEnemy::MeleeEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position) : Enemy(level * 3, max_cooldown, max_range, level, level * 3, level * 5, circle, 50, sf::Color(255, 64, 0), position) {}
 
-MeleeEnemy::MeleeEnemy(): MeleeEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
+MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Approaches player using the shortest distance that is above or equal to its movement speed.
 void MeleeEnemy::approach_player(sf::Vector2f player_distance_vector)
@@ -19,27 +20,30 @@ void MeleeEnemy::approach_player(sf::Vector2f player_distance_vector)
         body->move(movement_speed, 0);
         position = body->getPosition();
         rotation = right;
-    } else if (shortest_distance < 0 && is_y_distance == false)
+    }
+    else if (shortest_distance < 0 && is_y_distance == false)
     {
         body->move(-movement_speed, 0);
         position = body->getPosition();
         rotation = left;
-    } else if (shortest_distance >= 0 && is_y_distance == true)
+    }
+    else if (shortest_distance >= 0 && is_y_distance == true)
     {
         body->move(0, movement_speed);
         position = body->getPosition();
         rotation = down;
-    } else if (shortest_distance < 0 && is_y_distance == true)
+    }
+    else if (shortest_distance < 0 && is_y_distance == true)
     {
         body->move(0, -movement_speed);
         position = body->getPosition();
         rotation = up;
-    } 
+    }
 }
 
 // Creates melee attack projectile in front of enemy if the melee_attack is not currently active and its attack cooldown is zero or lower.
 void MeleeEnemy::attack()
-{ 
+{
     if (melee_attack.is_active() == false && attack_cooldown <= 0)
     {
         switch (rotation)
@@ -105,6 +109,13 @@ void MeleeEnemy::unload_object()
 {
     Enemy::unload_object();
     melee_attack.unload_object();
+}
+
+// Draws enemy and its projectiles on the screen
+void MeleeEnemy::draw_object(sf::RenderWindow *display)
+{
+    Enemy::draw_object(display);
+    melee_attack.draw_object(display);
 }
 
 Projectile *MeleeEnemy::get_melee_attack() { return &melee_attack; }

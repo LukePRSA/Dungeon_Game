@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position): damage(damage), max_cooldown(max_cooldown), Entity(level, xp, hp, shape, width, colour, position) {}
+Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Color colour, sf::Vector2f position): damage(damage), max_cooldown(max_cooldown), Entity(level, xp, hp, shape, width, colour, position) {}
 
 Enemy::Enemy(): damage(0), max_cooldown(0), max_range(0), Entity() {}
 

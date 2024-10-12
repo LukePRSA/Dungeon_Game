@@ -1,7 +1,7 @@
 #include "RoomObject.h"
 
 // Creates the body as a square or circle, based on chosen Shape.
-RoomObject::RoomObject(Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : position(position)
+RoomObject::RoomObject(Shape shape, int width, sf::Color colour, sf::Vector2f position) : position(position)
 {
     if (shape == square)
     {
@@ -12,22 +12,22 @@ RoomObject::RoomObject(Shape shape, int width, sf::Vector3<short unsigned int> c
         body = new sf::CircleShape(width / 2);
     }
 
-    body->setFillColor(sf::Color(colour.x, colour.y, colour.z));
+    body->setFillColor(sf::Color(colour));
     body->setOrigin(sf::Vector2f(width / 2, width / 2));
     unload_object();
 }
 
 // Creates a rectangle with given parameters.
-RoomObject::RoomObject(int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : position(position)
+RoomObject::RoomObject(int length, int width, sf::Color colour, sf::Vector2f position) : position(position)
 {
     body = new sf::RectangleShape(sf::Vector2f(length, width));
-    body->setFillColor(sf::Color(colour.x, colour.y, colour.z));
+    body->setFillColor(sf::Color(colour));
     body->setOrigin(sf::Vector2f(length / 2, width / 2));
     unload_object();
 }
 
 // Creates a 0-width white square.
-RoomObject::RoomObject() : RoomObject(square, 0, sf::Vector3<short unsigned int>(255, 255, 255), sf::Vector2f(0, 0)) {}
+RoomObject::RoomObject() : RoomObject(square, 0, sf::Color(255, 255, 255), sf::Vector2f(0, 0)) {}
 
 // Draws object on given display.
 void RoomObject::draw_object(sf::RenderWindow *display)

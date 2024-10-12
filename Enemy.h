@@ -14,7 +14,7 @@ protected:
     int max_range;
 
 public:
-    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position);
+    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Color colour, sf::Vector2f position);
     Enemy();
     virtual void perform_ai(sf::Vector2f player_position) = 0;
     virtual void update_attacks() = 0;

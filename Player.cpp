@@ -1,7 +1,7 @@
 #include "Player.h"
 
 // 
-Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Vector3<short unsigned int>(0, 255, 255), position)
+Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Color(0, 255, 255), position)
 {
     melee_damage = level * 4;
     ranged_damage = level * 3;

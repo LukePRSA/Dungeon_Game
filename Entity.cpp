@@ -1,8 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
 
-Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Vector3<short unsigned int> colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(length, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(length, width, colour, position) {}
 
 Entity::Entity() : level(0), xp(0), hp(0), max_hp(0), RoomObject() {}
 

@@ -11,8 +11,8 @@ private:
     int melee_damage;
     int ranged_damage;
     Rotation rotation = right;
-    Projectile melee_attack{0, 1, 60, 160, sf::Vector3<short unsigned int>(0, 255, 128)};
-    Projectile ranged_projectiles[3]{{58, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)}, {1, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)}, {1, 5, 50, 20, sf::Vector3<short unsigned int>(0, 255, 128)}};
+    Projectile melee_attack{0, 1, 60, 160, sf::Color(0, 255, 128)};
+    Projectile ranged_projectiles[3]{{58, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}};
     int max_projectile_cooldown = 10;
     int projectile_cooldowns[3] = {0};
     int max_dodge_cooldown = 3;
