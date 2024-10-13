@@ -21,7 +21,7 @@ void StrikerTarget::place_target(sf::Vector2f position)
     }
 }
 
-// Decreaes countdown by 1 and changes its colour. Allows it to deal damage at 0 and removes it if below 0.
+// Decreases countdown by 1 and changes its colour. Allows it to deal damage at 0 and removes it if below 0.
 void StrikerTarget::update_target()
 {
     if (active && loaded)

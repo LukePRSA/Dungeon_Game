@@ -18,6 +18,7 @@ public:
     Enemy();
     virtual void perform_ai(sf::Vector2f player_position) = 0;
     virtual void update_attacks() = 0;
+    virtual bool has_hit(sf::Shape *body) = 0;
     sf::Vector2f find_distance_vector(sf::Vector2f position);
     float find_distance(sf::Vector2f position);
 

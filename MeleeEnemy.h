@@ -7,9 +7,9 @@
 // Represents an enemy that approaches the player when in range and attacks them if close enough.
 class MeleeEnemy : public Enemy
 {
-private:
+protected:
     Projectile melee_attack{0, 1, 60, 160, sf::Color(255, 60, 60)};
-    int movement_speed;
+    int movement_speed = 58;
     Rotation rotation = right;
     void approach_player(sf::Vector2f player_distance_vector);
     void attack();
@@ -19,8 +19,8 @@ public:
     MeleeEnemy();
     void perform_ai(sf::Vector2f player_position);
     void update_attacks();
+    bool has_hit(sf::Shape *body);
 
-    bool has_collided(sf::Shape *body);
     void load_object();
     void unload_object();
     void draw_object(sf::RenderWindow *display);

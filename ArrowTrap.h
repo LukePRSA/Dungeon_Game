@@ -18,6 +18,10 @@ public:
     bool is_triggered(sf::Shape *body);
     void toggle_active();
 
+    void load_object();
+    void unload_object();
+    void draw_object(sf::RenderWindow* display);
+
     Projectile *get_arrow();
     Rotation get_direction();
     void set_direction(Rotation direction);

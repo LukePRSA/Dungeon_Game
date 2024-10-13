@@ -97,7 +97,7 @@ void MeleeEnemy::update_attacks()
 }
 
 // Returns true if the enemy's attack projectile has hit.
-bool MeleeEnemy::has_collided(sf::Shape *body)
+bool MeleeEnemy::has_hit(sf::Shape *body)
 {
     return melee_attack.has_collided(body);
 }

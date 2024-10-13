@@ -90,6 +90,36 @@ void ArrowTrap::toggle_active()
     }
 }
 
+// Loads arrow trap and its arrows.
+void ArrowTrap::load_object()
+{
+    Trap::load_object();
+    for (int i = 0; i < 5; i++)
+    {
+        arrows[i].load_object();
+    }
+}
+
+// Unloads arrow trap and its arrows.
+void ArrowTrap::unload_object()
+{
+    Trap::unload_object();
+    for (int i = 0; i < 5; i++)
+    {
+        arrows[i].unload_object();
+    }
+}
+
+// Draws arrow trap and its arrows.
+void ArrowTrap::draw_object(sf::RenderWindow* display)
+{
+    Trap::draw_object(display);
+    for (int i = 0; i < 5; i++)
+    {
+        arrows[i].draw_object(display);
+    }
+}
+
 Projectile *ArrowTrap::get_arrow() { return arrows; }
 
 RoomObject::Rotation ArrowTrap::get_direction() { return direction; }

@@ -15,6 +15,7 @@ public:
     StrikerEnemy();
     void perform_ai(sf::Vector2f player_position);
     void update_attacks();
+    bool has_hit(sf::Shape *body);
 
     void load_object();
     void unload_object();
