@@ -1,7 +1,7 @@
 #include "RoomObject.h"
 
 // Creates the body as a square or circle, based on chosen Shape.
-RoomObject::RoomObject(Shape shape, int width, sf::Color colour, sf::Vector2f position) : position(position)
+RoomObject::RoomObject(ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : position(position)
 {
     if (shape == square)
     {

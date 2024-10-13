@@ -1,6 +1,6 @@
 #include "Player.h"
 
-// 
+// Creates teal coloured circle representing player and loads it at given position.
 Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Color(0, 255, 255), position)
 {
     melee_damage = level * 4;
@@ -15,10 +15,7 @@ Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, lev
 }
 
 // Initial level 1 player. Must set position afterwards.
-Player::Player() : Player(1, 0, sf::Vector2f(-1, -1))
-{
-    load_object();
-}
+Player::Player() : Player(1, 0, sf::Vector2f(-1, -1)) {}
 
 // Move player to the right by their movement speed and rotate body to that direction.
 void Player::move_right()
@@ -199,7 +196,7 @@ int Player::get_ranged_damage() { return ranged_damage; }
 
 void Player::set_ranged_damage(int damage) { ranged_damage = damage; }
 
-Rotation Player::get_rotation() { return rotation; }
+RoomObject::Rotation Player::get_rotation() { return rotation; }
 
 void Player::set_Rotation(Rotation rotation) { this->rotation = rotation; }
 

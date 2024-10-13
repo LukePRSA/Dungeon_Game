@@ -1,9 +1,12 @@
 #include "Entity.h"
 
-Entity::Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
+// Creates circle/square entity.
+Entity::Entity(int level, int xp, int max_hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
 
+// Creates rectangular entity.
 Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(length, width, colour, position) {}
 
+// Creates entity with default RoomObject (0-width circle).
 Entity::Entity() : level(0), xp(0), hp(0), max_hp(0), RoomObject() {}
 
 // Reduces Entity's hp if it is alive, and kills it if its hp drops below zero.

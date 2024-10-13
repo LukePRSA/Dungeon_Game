@@ -14,7 +14,7 @@ protected:
     bool alive = true;
 
 public:
-    Entity(int level, int xp, int max_hp, Shape shape, int width, sf::Color colour, sf::Vector2f position);
+    Entity(int level, int xp, int max_hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position);
     Entity(int level, int xp, int max_hp, int length, int width, sf::Color colour, sf::Vector2f position);
     Entity();
     void take_damage(int damage);

@@ -3,7 +3,7 @@
 
 #include "RoomObject.h"
 
-// Abstract class representing a trap that triggers passively.
+// Abstract class representing a trap that triggers passively over time.
 class Trap : public RoomObject
 {
 protected:
@@ -15,7 +15,7 @@ protected:
 
 
 public:
-    Trap(int level, int damage, int max_cooldown, Shape shape, int width, sf::Color colour, sf::Vector2f position);
+    Trap(int level, int damage, int max_cooldown, ShapeType shape, int width, sf::Color colour, sf::Vector2f position);
     Trap();
     virtual void update_trap() = 0;
     virtual bool is_triggered(sf::Shape *body) = 0;

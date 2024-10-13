@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include <cmath>
 
-// Abstract class representing an enemy with some AI.
+// Abstract class representing an enemy with some AI that is provided in its children.
 class Enemy : public Entity
 {
 protected:
@@ -14,7 +14,7 @@ protected:
     int max_range;
 
 public:
-    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, Shape shape, int width, sf::Color colour, sf::Vector2f position);
+    Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position);
     Enemy();
     virtual void perform_ai(sf::Vector2f player_position) = 0;
     virtual void update_attacks() = 0;

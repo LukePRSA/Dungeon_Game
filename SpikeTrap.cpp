@@ -1,8 +1,13 @@
 #include "SpikeTrap.h"
 
+// Creates a grey spike trap with given parameters at the given position.
 SpikeTrap::SpikeTrap(int level, int max_cooldown, sf::Vector2f position) : Trap(level, level * 8, max_cooldown, square, 58, sf::Color(50, 50, 50), position) {}
 
-SpikeTrap::SpikeTrap() : SpikeTrap(0, 0, sf::Vector2f(-1, -1)) {}
+// Creates an inactive spike trap off-screen.
+SpikeTrap::SpikeTrap() : SpikeTrap(0, 0, sf::Vector2f(-1, -1))
+{
+    toggle_active();
+}
 
 // Decreases positive cooldowns by one and reactivates it if cooldown is 0.
 void SpikeTrap::update_trap()

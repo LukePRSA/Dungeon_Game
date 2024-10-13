@@ -4,6 +4,7 @@
 #include <Enemy.h>
 #include <StrikerTarget.h>
 
+// Represents an enemy that places a warning at a given position then strikes it with an attack after some turns.
 class StrikerEnemy : public Enemy
 {
 private:

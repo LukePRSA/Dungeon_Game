@@ -3,7 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include "Enums.h"
 
 // General object in room, e.g. walls, exits and entrances.
 class RoomObject
@@ -14,7 +13,22 @@ protected:
     bool loaded;
 
 public:
-    RoomObject(Shape shape, int size, sf::Color colour, sf::Vector2f position);
+    // Options for shape of Room_object (aside from rectangle, which is addressed in a separate constructor).
+    enum ShapeType
+    {
+        square,
+        circle
+    };
+    // Rotation or direction of an object
+    enum Rotation
+    {
+        right,
+        down,
+        left,
+        up
+    };
+
+    RoomObject(ShapeType shape, int size, sf::Color colour, sf::Vector2f position);
     RoomObject(int length, int width, sf::Color colour, sf::Vector2f position);
     RoomObject();
     virtual void draw_object(sf::RenderWindow *display);

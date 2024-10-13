@@ -1,11 +1,13 @@
 #include "StrikerTarget.h"
 
+// Creates a translucent StrikerTarget off-screen for StrikerEnemy.
 StrikerTarget::StrikerTarget() : RoomObject(circle, 65, sf::Color(255, 255, 255, 127), sf::Vector2f(-1, -1))
 {
     body->setOutlineColor(sf::Color(255, 255, 255, 127));
     body->setOutlineThickness(0);
 }
 
+// Places a yellow target at position and starts a countdown from 3.
 void StrikerTarget::place_target(sf::Vector2f position)
 {
     if (loaded)
@@ -19,6 +21,7 @@ void StrikerTarget::place_target(sf::Vector2f position)
     }
 }
 
+// Decreaes countdown by 1 and changes its colour. Allows it to deal damage at 0 and removes it if below 0.
 void StrikerTarget::update_target()
 {
     if (active && loaded)
@@ -49,6 +52,7 @@ void StrikerTarget::update_target()
     }
 }
 
+// Removes target by moving it off screen and deactivating it.
 void StrikerTarget::remove_target()
 {
     body->setPosition(-1, -1);

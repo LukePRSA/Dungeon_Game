@@ -1,6 +1,7 @@
 #include "ArrowTrap.h"
 
-ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position) : direction(direction), Trap(level, level * 4, max_cooldown, square, 45, sf::Color(150, 150, 150), position)
+// Creates a light grey arrow trap that shoots arrows in the given direction from the given position.
+ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position) : direction(direction), Trap(level, level * 3, max_cooldown, square, 45, sf::Color(150, 150, 150), position)
 {
     switch (direction)
     {
@@ -19,7 +20,11 @@ ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector
     }
 }
 
-ArrowTrap::ArrowTrap() : direction(right), Trap() {}
+// Creates an inactive arrow trap off-screen in the right direction.
+ArrowTrap::ArrowTrap() : ArrowTrap(0, 0, right, sf::Vector2f(-1,-1))
+{
+    toggle_active();
+}
 
 // Updates all active arrows, decreases cooldown if above 0, else launches arrow and resets cooldown.
 void ArrowTrap::update_trap()
@@ -87,6 +92,6 @@ void ArrowTrap::toggle_active()
 
 Projectile *ArrowTrap::get_arrow() { return arrows; }
 
-Rotation ArrowTrap::get_direction() { return direction; }
+RoomObject::Rotation ArrowTrap::get_direction() { return direction; }
 
 void ArrowTrap::set_direction(Rotation direction) { this->direction = direction; }

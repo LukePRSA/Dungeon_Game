@@ -1,8 +1,9 @@
 #include "MeleeEnemy.h"
 
-// Creates melee enemy with damage 3 times level, xp 4 times level and hp 5 times level.
+// Creates an orange melee enemy with damage 3 times level, xp 4 times level and hp 5 times level.
 MeleeEnemy::MeleeEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position) : Enemy(level * 3, max_cooldown, max_range, level, level * 3, level * 5, circle, 50, sf::Color(255, 64, 0), position) {}
 
+// Creates a default MeleeEnemy off-screen.
 MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Approaches player using the shortest distance that is above or equal to its movement speed.
@@ -128,6 +129,6 @@ int MeleeEnemy::get_movement_speed() { return movement_speed; }
 
 void MeleeEnemy::set_movement_speed(int speed) { movement_speed = speed; }
 
-Rotation MeleeEnemy::get_rotation() { return rotation; }
+RoomObject::Rotation MeleeEnemy::get_rotation() { return rotation; }
 
 void MeleeEnemy::set_rotation(Rotation rotation) { this->rotation = rotation; }

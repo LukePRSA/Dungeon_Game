@@ -1,7 +1,7 @@
 #include "Projectile.h"
 
 // Creates a circular/square projectile.
-Projectile::Projectile(int speed, int lifespan, Shape shape, int size, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
+Projectile::Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
 
 // Creates a rectangular projectile.
 Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(length, width, colour, sf::Vector2f(-1,-1)) {}
@@ -90,7 +90,7 @@ bool Projectile::has_collided(sf::Shape *body)
     return false;
 }
 
-Rotation Projectile::get_direction() { return direction; }
+RoomObject::Rotation Projectile::get_direction() { return direction; }
 
 // Changes direction of projectile. If loaded and active, it also changes its direction on the display.
 void Projectile::set_direction(Rotation direction)

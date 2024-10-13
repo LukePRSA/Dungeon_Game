@@ -14,13 +14,13 @@ private:
     int lifespan;
 
 public:
-    Projectile(int speed, int lifespan, Shape shape, int size, sf::Color colour);
+    Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour);
     Projectile(int speed, int lifespan, int length, int width, sf::Color colour);
     Projectile();
     void launch_projectile(Rotation direction, sf::Vector2f position);
     void update();
     void despawn_projectile();
-    
+
     bool has_collided(sf::Shape *body);
 
     Rotation get_direction();

@@ -3,6 +3,7 @@
 // Creates striker enemy with damage 6 times level, xp 4 times level, hp 7 times level.
 StrikerEnemy::StrikerEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position): Enemy(level * 6, max_cooldown, max_range, level, level * 4, level * 7, square, 50, sf::Color(255, 255, 0), position) {}
 
+// Creates a striker enemy off screen.
 StrikerEnemy::StrikerEnemy() : StrikerEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // If loaded, the player is within max range and the attack cooldown is 0 or less, places a target on the enemy.
