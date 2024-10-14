@@ -14,21 +14,22 @@ private:
     Projectile melee_attack{0, 1, 60, 160, sf::Color(0, 255, 128)};
     Projectile ranged_projectiles[3]{{58, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}};
     int max_projectile_cooldown = 10;
-    int projectile_cooldowns[3] = {0};
+    int projectile_cooldowns[3] = {0, 0, 0};
     int max_dodge_cooldown = 3;
     int dodge_cooldown = 0;
-    int movement_speed = 58;
+    int movement_speed;
     int dodge_distance_multiplier = 2;
 
 public:
-    Player(int level, int xp, sf::Vector2f position);
+    Player(int level, int xp, int movement_speed, sf::Vector2f position);
+    Player(int movement_speed);
     Player();
     void move_right();
     void move_down();
     void move_left();
     void move_up();
     void dodge();
-    void gain_xp(int xp);
+    void gain_xp(int xp_gained);
     void attack_close();
     void attack_long();
     bool has_melee_attack_hit(sf::Shape *body);
@@ -37,7 +38,6 @@ public:
     void despawn_projectiles();
 
     void draw_object(sf::RenderWindow *display);
-    std::string save(); // add later
 
     int get_melee_damage();
     void set_melee_damage(int damage);

@@ -8,14 +8,14 @@
 class MeleeEnemy : public Enemy
 {
 protected:
-    Projectile melee_attack{0, 1, 60, 160, sf::Color(255, 60, 60)};
+    Projectile melee_attack{0, 0, 60, 160, sf::Color(255, 60, 60)};
     int movement_speed = 58;
     Rotation rotation = right;
     void approach_player(sf::Vector2f player_distance_vector);
     void attack();
 
 public:
-    MeleeEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position);
+    MeleeEnemy(int level, int max_cooldown, int max_range, int movement_speed, sf::Vector2f position);
     MeleeEnemy();
     void perform_ai(sf::Vector2f player_position);
     void update_attacks();

@@ -46,7 +46,7 @@
                         breakable_walls.emplace_back(level, 0, RoomObject::square, TILE_SIZE_TO_PIXELS, sf::Color(255,255,255), tiles_room[i][j]->get_center_pos());
                         break;
                         case 'M':
-                        enemies.emplace_back(MeleeEnemy(level, 3, 300, tiles_room[i][j]->get_center_pos()));
+                        enemies.emplace_back(MeleeEnemy(level, 3, 300, TILE_SIZE_TO_PIXELS, tiles_room[i][j]->get_center_pos()));
                         num_alive_entities++;
                         break;
                         case 'S':
@@ -54,20 +54,20 @@
                         num_alive_entities++;
                         break;
                         case 'B':
-                        enemies.emplace_back(BasicBoss(level, 5, 400, )); // fix
+                        enemies.emplace_back(BasicBoss(level, 5, 400, TILE_SIZE_TO_PIXELS, tiles_room[i][j]->get_center_pos()));
                         num_alive_entities++;
                         break;
                         case 'A':
-                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::up, tiles_room[i][j]->get_center_pos()));
+                        traps.emplace_back(ArrowTrap(level, 3, TILE_SIZE_TO_PIXELS, RoomObject::up, tiles_room[i][j]->get_center_pos()));
                         break;
                         case 'a':
-                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::left, tiles_room[i][j]->get_center_pos()));
+                        traps.emplace_back(ArrowTrap(level, 3, TILE_SIZE_TO_PIXELS, RoomObject::left, tiles_room[i][j]->get_center_pos()));
                         break;
                         case 'Z':
-                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::down, tiles_room[i][j]->get_center_pos()));
+                        traps.emplace_back(ArrowTrap(level, 3, TILE_SIZE_TO_PIXELS, RoomObject::down, tiles_room[i][j]->get_center_pos()));
                         break;
                         case 'z':
-                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::right, tiles_room[i][j]->get_center_pos()));
+                        traps.emplace_back(ArrowTrap(level, 3, TILE_SIZE_TO_PIXELS, RoomObject::right, tiles_room[i][j]->get_center_pos()));
                         break;
                         case 'H':
                         health_consumables.emplace_back(HealthConsumable(50, tiles_room[i][j]->get_center_pos()));

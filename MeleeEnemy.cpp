@@ -1,10 +1,10 @@
 #include "MeleeEnemy.h"
 
 // Creates an orange melee enemy with damage 3 times level, xp 4 times level and hp 5 times level.
-MeleeEnemy::MeleeEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position) : Enemy(level * 3, max_cooldown, max_range, level, level * 3, level * 5, circle, 50, sf::Color(255, 64, 0), position) {}
+MeleeEnemy::MeleeEnemy(int level, int max_cooldown, int max_range, int movement_speed, sf::Vector2f position) : Enemy(level * 3, max_cooldown, max_range, level, level * 3, level * 5, circle, 50, sf::Color(255, 64, 0), position), movement_speed(movement_speed) {}
 
-// Creates a default MeleeEnemy off-screen.
-MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
+// Creates a default MeleeEnemy off-screen that cannot move.
+MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Approaches player using the shortest distance that is above or equal to its movement speed.
 void MeleeEnemy::approach_player(sf::Vector2f player_distance_vector)

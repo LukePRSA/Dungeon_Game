@@ -1,7 +1,7 @@
 #include "Player.h"
 
 // Creates teal coloured circle representing player and loads it at given position.
-Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Color(0, 255, 255), position)
+Player::Player(int level, int xp, int movement_speed, sf::Vector2f position) : Entity(level, xp, level * 10, circle, 50, sf::Color(0, 255, 255), position), movement_speed(movement_speed)
 {
     melee_damage = level * 4;
     ranged_damage = level * 3;
@@ -9,13 +9,17 @@ Player::Player(int level, int xp, sf::Vector2f position) : Entity(level, xp, lev
     melee_attack.load_object();
     for (int i = 0; i < 3; i++)
     {
+        ranged_projectiles[i].set_movement_speed(movement_speed);
         ranged_projectiles[i].load_object();
     }
     body->setOutlineThickness(1);
 }
 
-// Initial level 1 player. Must set position afterwards.
-Player::Player() : Player(1, 0, sf::Vector2f(-1, -1)) {}
+// Initial level 1 player with given speed. Must set position afterwards.
+Player::Player(int movement_speed) : Player(1, 0, movement_speed, sf::Vector2f(-1, -1)) {}
+
+// Initial level 1 player with no speed. Must set position afterwards.
+Player::Player() : Player(1, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Move player to the right by their movement speed and rotate body to that direction.
 void Player::move_right()
@@ -56,7 +60,6 @@ void Player::move_up()
 // Move player by their movement speed in their current direction if dodge is off cooldown.
 void Player::dodge()
 {
-    int speed_multiplier = 2;
     if (dodge_cooldown <= 0)
     {
         switch (rotation)
@@ -75,20 +78,26 @@ void Player::dodge()
             break;
         }
         position = body->getPosition();
+        dodge_cooldown = 3;
     }
 }
 
 // Increase xp by given amount. If above 10 times level, levels up, increasing stats.
-void Player::gain_xp(int xp)
+void Player::gain_xp(int xp_gained)
 {
-    this->xp += xp;
-    if (this->xp >= 10 * level)
+    xp += xp_gained;
+    if (xp >= 10 * level)
     {
         level++;
-        xp = xp - 10 * level;
-        hp += 5;
-        melee_damage += 3;
-        ranged_damage += 2;
+        xp = xp - (10 * (level-1));
+        if (xp > 10 * level)
+        {
+            xp = level - 1;
+        }
+        hp += 10;
+        max_hp += 10;
+        melee_damage += 4;
+        ranged_damage += 3;
     }
 }
 
@@ -138,12 +147,14 @@ bool Player::has_melee_attack_hit(sf::Shape *body)
 // Returns true if any of the player's active ranged projectiles has hit.
 bool Player::has_ranged_projectile_hit(sf::Shape *body)
 {
-    bool hit = false;
     for (int i = 0; i < 3; i++)
     {
-        hit = ranged_projectiles[i].has_collided(body);
+        if (ranged_projectiles[i].has_collided(body))
+        {
+            return true;
+        }
     }
-    return hit;
+    return false;
 }
 
 // Updates movements of projectiles and decreases cooldowns if above 0.

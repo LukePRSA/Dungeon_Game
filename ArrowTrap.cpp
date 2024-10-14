@@ -1,7 +1,7 @@
 #include "ArrowTrap.h"
 
 // Creates a light grey arrow trap that shoots arrows in the given direction from the given position.
-ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position) : Trap(level, level * 3, max_cooldown, square, 45, sf::Color(150, 150, 150), position), direction(direction)
+ArrowTrap::ArrowTrap(int level, int max_cooldown, int projectile_speed, Rotation direction, sf::Vector2f position) : Trap(level, level * 3, max_cooldown, square, 45, sf::Color(150, 150, 150), position), direction(direction), projectile_speed(projectile_speed)
 {
     switch (direction)
     {
@@ -21,7 +21,7 @@ ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector
 }
 
 // Creates an inactive arrow trap off-screen in the right direction.
-ArrowTrap::ArrowTrap() : ArrowTrap(0, 0, right, sf::Vector2f(-1,-1))
+ArrowTrap::ArrowTrap() : ArrowTrap(0, 0, 0, right, sf::Vector2f(-1, -1))
 {
     toggle_active();
 }
@@ -111,7 +111,7 @@ void ArrowTrap::unload_object()
 }
 
 // Draws arrow trap and its arrows.
-void ArrowTrap::draw_object(sf::RenderWindow* display)
+void ArrowTrap::draw_object(sf::RenderWindow *display)
 {
     Trap::draw_object(display);
     for (int i = 0; i < 5; i++)
@@ -125,3 +125,7 @@ Projectile *ArrowTrap::get_arrow() { return arrows; }
 RoomObject::Rotation ArrowTrap::get_direction() { return direction; }
 
 void ArrowTrap::set_direction(Rotation direction) { this->direction = direction; }
+
+int ArrowTrap::get_speed() { return projectile_speed; }
+
+void ArrowTrap::set_speed(int speed) { projectile_speed = speed; }

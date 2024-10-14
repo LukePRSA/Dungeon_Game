@@ -10,9 +10,10 @@ class ArrowTrap : public Trap
 private:
     Projectile arrows[5] = {{58, 5, 35, 10, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}};
     Rotation direction;
+    int projectile_speed;
 
 public:
-    ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position);
+    ArrowTrap(int level, int max_cooldown, int projectile_speed, Rotation direction, sf::Vector2f position);
     ArrowTrap();
     void update_trap();
     bool is_triggered(sf::Shape *body);
@@ -25,6 +26,8 @@ public:
     Projectile *get_arrow();
     Rotation get_direction();
     void set_direction(Rotation direction);
+    int get_speed();
+    void set_speed(int speed);
 };
 
 #endif

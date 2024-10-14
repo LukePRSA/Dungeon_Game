@@ -15,3 +15,7 @@ added is_triggered and toggle_active functions to Trap class to differentiate th
 added enums to RoomObject for rotation/direction and type of shape the object is. The former is used in many of its children.
 
 added has_hit pure virtual function to Enemy classes to seperate it from has_collided in case their bodies' actual collisions are needed
+
+due to inconveniences with attempting collisions and polymorphism in a limited amount of time, minions array was removed from the boss. Replace by minions spawning in the room alongside the boss.
+
+made Boss class inherit from MeleeEnemy since they use similar functions. The perform_ai function alongside others were overridden to fit the projectile attack.

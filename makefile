@@ -48,3 +48,50 @@ clean_test_Entity:
 	rm -f RoomObject.o
 	rm -f Entity.o
 	rm -f EntityTest
+
+# Build and run Projectile test
+
+test_Projectile:
+	$(CXX) $(CXXFLAGS) -c ProjectileTest_main.cpp
+
+	$(CXX) $(CXXFLAGS) -c RoomObject.cpp
+
+	$(CXX) $(CXXFLAGS) -c Projectile.cpp
+
+	$(CXX) ProjectileTest_main.o RoomObject.o Projectile.o -o ProjectileTest $(SFML)
+
+	./ProjectileTest
+
+# Clean Projectile test
+
+clean_test_Projectile:
+	rm -f ProjectileTest_main.o
+	rm -f RoomObject.o
+	rm -f Projectile.o
+	rm -f ProjectileTest
+
+# Build and run Player test
+
+test_Player:
+	$(CXX) $(CXXFLAGS) -c PlayerTest_main.cpp
+
+	$(CXX) $(CXXFLAGS) -c RoomObject.cpp
+
+	$(CXX) $(CXXFLAGS) -c Projectile.cpp
+
+	$(CXX) $(CXXFLAGS) -c Entity.cpp
+
+	$(CXX) $(CXXFLAGS) -c Player.cpp
+
+	$(CXX) PlayerTest_main.o RoomObject.o Projectile.o Entity.o Player.o -o PlayerTest $(SFML)
+
+	./PlayerTest
+
+# Clean Player test
+
+clean_test_Player:
+	rm -f PlayerTest_main.o
+	rm -f RoomObject.o
+	rm -f Projectile.o
+	rm -f Entity.o
+	rm -f Player.o

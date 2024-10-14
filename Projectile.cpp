@@ -87,6 +87,7 @@ bool Projectile::has_collided(sf::Shape *body)
         }
         return collided;
     }
+    return false;
 }
 
 RoomObject::Rotation Projectile::get_direction() { return direction; }
@@ -117,7 +118,7 @@ void Projectile::set_direction(Rotation direction)
 
 bool Projectile::is_active() { return active; }
 
-bool Projectile::set_active(bool active) { this->active = active; }
+void Projectile::set_active(bool active) { this->active = active; }
 
 int Projectile::get_movement_speed() { return movement_speed; }
 

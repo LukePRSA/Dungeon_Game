@@ -26,7 +26,7 @@ public:
     Rotation get_direction();
     void set_direction(Rotation direction);
     bool is_active();
-    bool set_active(bool active);
+    void set_active(bool active);
     int get_movement_speed();
     void set_movement_speed(int movement_speed);
     int get_turns_since_launch();
