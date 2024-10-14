@@ -2,7 +2,6 @@
 #define ROOM_OBJECT_H
 
 #include <SFML/Graphics.hpp>
-#include <string>
 
 // General object in room, e.g. walls, exits and entrances.
 class RoomObject

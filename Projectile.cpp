@@ -87,7 +87,6 @@ bool Projectile::has_collided(sf::Shape *body)
         }
         return collided;
     }
-    return false;
 }
 
 RoomObject::Rotation Projectile::get_direction() { return direction; }

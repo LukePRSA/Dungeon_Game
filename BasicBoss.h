@@ -7,7 +7,7 @@
 #include "Projectile.h"
 #include "MeleeEnemy.h"
 
-// Represents a powerful boss enemy that has melee and ranged attacks and minions.
+// Represents a powerful boss enemy that has melee and ranged attacks.
 class BasicBoss : public MeleeEnemy
 {
 private:

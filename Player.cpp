@@ -53,7 +53,7 @@ void Player::move_up()
     rotation = up;
 }
 
-// Move player by double their movement speed in their current direction if dodge is off cooldown.
+// Move player by their movement speed in their current direction if dodge is off cooldown.
 void Player::dodge()
 {
     int speed_multiplier = 2;
@@ -62,16 +62,16 @@ void Player::dodge()
         switch (rotation)
         {
         case right:
-            body->move(speed_multiplier * movement_speed, 0);
+            body->move(movement_speed, 0);
             break;
         case down:
-            body->move(0, speed_multiplier * movement_speed);
+            body->move(0, movement_speed);
             break;
         case left:
-            body->move(-speed_multiplier * movement_speed, 0);
+            body->move(-movement_speed, 0);
             break;
         case up:
-            body->move(0, -speed_multiplier * movement_speed);
+            body->move(0, -movement_speed);
             break;
         }
         position = body->getPosition();

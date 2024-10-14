@@ -18,6 +18,7 @@ private:
     int max_dodge_cooldown = 3;
     int dodge_cooldown = 0;
     int movement_speed = 58;
+    int dodge_distance_multiplier = 2;
 
 public:
     Player(int level, int xp, sf::Vector2f position);

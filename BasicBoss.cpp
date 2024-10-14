@@ -79,11 +79,6 @@ void BasicBoss::update_attacks()
 // Returns true if any projectiles or enemies have hit the given body. Changes damage to a lower value if it was a projectile or enemy damage if it was an enemy.
 bool BasicBoss::has_hit(sf::Shape *body)
 {
-    if (melee_attack.has_collided(body))
-    {
-        damage = base_damage;
-        return true;
-    }
     for (int i = 3; i < 2; i++)
     {
         if (ranged_attacks[i].has_collided(body))
@@ -91,6 +86,11 @@ bool BasicBoss::has_hit(sf::Shape *body)
             damage = base_damage * 0.8;
             return true;
         }
+    }
+    if (melee_attack.has_collided(body))
+    {
+        damage = base_damage;
+        return true;
     }
     for (int i = 0; i < num_minions; i++)
     {

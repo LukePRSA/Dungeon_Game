@@ -1,13 +1,13 @@
 #include "Entity.h"
 
 // Creates circle/square entity.
-Entity::Entity(int level, int xp, int max_hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(shape, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : RoomObject(shape, width, colour, position), level(level), xp(xp), max_hp(max_hp), hp(max_hp) {}
 
 // Creates rectangular entity.
-Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Color colour, sf::Vector2f position) : level(level), xp(xp), hp(max_hp), max_hp(max_hp), RoomObject(length, width, colour, position) {}
+Entity::Entity(int level, int xp, int max_hp, int length, int width, sf::Color colour, sf::Vector2f position) : RoomObject(length, width, colour, position), level(level), xp(xp), max_hp(max_hp), hp(max_hp) {}
 
 // Creates entity with default RoomObject (0-width circle).
-Entity::Entity() : level(0), xp(0), hp(0), max_hp(0), RoomObject() {}
+Entity::Entity() : RoomObject(), level(0), xp(0), max_hp(0), hp(0), alive(false) {}
 
 // Reduces Entity's hp if it is alive, and kills it if its hp drops below zero.
 void Entity::take_damage(int damage)
@@ -40,8 +40,7 @@ void Entity::kill_entity()
 {
     hp = 0;
     alive = false;
-    position = sf::Vector2f(-1, -1);
-    body->setPosition(sf::Vector2f(-1, -1));
+    RoomObject::set_position(sf::Vector2f(-1, -1));
 }
 
 int Entity::get_level() { return level; }
