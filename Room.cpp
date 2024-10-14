@@ -21,7 +21,6 @@
             file.close();
         }
     
-
         Room::Room(const std::string& file_name){
             load_room(file_name);
             tiles_room = new Tile**[LENGTH_OF_ROOM];
@@ -32,7 +31,64 @@
                 for(int j = 0 ; j < WIDTH_OF_ROOM ; j++){
                     tiles_room[i][j] = new Tile(layout_room[i][j]);
                 }
+            }
 
+            for (int i = 0; i < LENGTH_OF_ROOM; i++)
+            {
+                for (int j = 0; i < WIDTH_OF_ROOM; i++)
+                {
+                    switch (tiles_room[i][j]->get_type())
+                    {
+                        case '#':
+                        walls.emplace_back(RoomObject::square, TILE_SIZE_TO_PIXELS, sf::Color(255,255,255), tiles_room[i][j]->get_center_pos());
+                        break;
+                        case '$':
+                        breakable_walls.emplace_back(level, 0, RoomObject::square, TILE_SIZE_TO_PIXELS, sf::Color(255,255,255), tiles_room[i][j]->get_center_pos());
+                        break;
+                        case 'M':
+                        enemies.emplace_back(MeleeEnemy(level, 3, 300, tiles_room[i][j]->get_center_pos()));
+                        num_alive_entities++;
+                        break;
+                        case 'S':
+                        enemies.emplace_back(StrikerEnemy(level, 7, 400, tiles_room[i][j]->get_center_pos()));
+                        num_alive_entities++;
+                        break;
+                        case 'B':
+                        enemies.emplace_back(BasicBoss(level, 5, 400, )); // fix
+                        num_alive_entities++;
+                        break;
+                        case 'A':
+                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::up, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'a':
+                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::left, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'Z':
+                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::down, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'z':
+                        traps.emplace_back(ArrowTrap(level, 3, RoomObject::right, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'H':
+                        health_consumables.emplace_back(HealthConsumable(50, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'h':
+                        health_consumables.emplace_back(HealthConsumable(25, tiles_room[i][j]->get_center_pos()));
+                        break;
+                        case 'I':
+                        entrance = RoomObject(RoomObject::square, TILE_SIZE_TO_PIXELS, sf::Color(110, 86, 124), tiles_room[i][j]->get_center_pos());
+                        break;
+                        case 'i':
+                        start_position = tiles_room[i][j]->get_center_pos();
+                        break;
+                        case 'O':
+                        exit = RoomObject(RoomObject::square, TILE_SIZE_TO_PIXELS, sf::Color(110, 86, 124), tiles_room[i][j]->get_center_pos());
+                        break;
+                        case 'o':
+                        end_position = tiles_room[i][j]->get_center_pos();
+                        break;
+                    }
+                }
             }
         }
         std::vector<std::string> Room::get_layout_room(){
@@ -46,23 +102,24 @@
         // Loads all objects in room. If from_next_room is true, the player teleports near the exit. Else, near the entrance.
     void Room::load_objects(bool from_next_room)
     {
-        for (int i = 0; i < num_walls; i++)
+        for (int i = 0; i < walls.size(); i++)
         {
+            
             walls[i].load_object();
         }
-        for (int i = 0; i < num_breakable_walls; i++)
+        for (int i = 0; i < breakable_walls.size(); i++)
         {
             breakable_walls[i].load_object();
         }
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             enemies[i].load_object();
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             traps[i].load_object();
         }
-        for (int i = 0; i < num_consumables; i++)
+        for (int i = 0; i < health_consumables.size(); i++)
         {
             health_consumables[i].load_object();
         }
@@ -79,23 +136,23 @@
     // Unloads all objects in room.
     void Room::unload_objects()
     {
-        for (int i = 0; i < num_walls; i++)
+        for (int i = 0; i < walls.size(); i++)
         {
             walls[i].unload_object();
         }
-        for (int i = 0; i < num_breakable_walls; i++)
+        for (int i = 0; i < breakable_walls.size(); i++)
         {
             breakable_walls[i].unload_object();
         }
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             enemies[i].unload_object();
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             traps[i].unload_object();
         }
-        for (int i = 0; i < num_consumables; i++)
+        for (int i = 0; i < health_consumables.size(); i++)
         {
             health_consumables[i].unload_object();
         }
@@ -104,23 +161,23 @@
     // Draws all objects in room to given display.
     void Room::draw_objects(sf::RenderWindow* display)
     {
-        for (int i = 0; i < num_walls; i++)
+        for (int i = 0; i < walls.size(); i++)
         {
             walls[i].draw_object(display);
         }
-        for (int i = 0; i < num_breakable_walls; i++)
+        for (int i = 0; i < breakable_walls.size(); i++)
         {
             breakable_walls[i].draw_object(display);
         }
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             enemies[i].draw_object(display);
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             traps[i].draw_object(display);
         }
-        for (int i = 0; i < num_consumables; i++)
+        for (int i = 0; i < health_consumables.size(); i++)
         {
             health_consumables[i].draw_object(display);
         }
@@ -129,7 +186,7 @@
     // Passes a turn for all the enemies and traps in the room.
     void Room::pass_turn()
     {
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             sf::Vector2f initial_position = enemies[i].get_position();
             enemies[i].perform_ai(player->get_position());
@@ -138,14 +195,14 @@
                 enemies[i].set_position(initial_position);
             }
             enemies[i].update_attacks();
-            for (int i = 0; i < num_walls; i++) // removes enemy projectiles upon hitting a wall
+            for (int i = 0; i < walls.size(); i++) // removes enemy projectiles upon hitting a wall
             {
                 if (enemies[i].has_hit(walls[i].get_body()))
                 {
                     break;
                 }
             }
-            for (int i = 0; i < num_breakable_walls; i++)
+            for (int i = 0; i < breakable_walls.size(); i++)
             {
                 if (enemies[i].has_hit(breakable_walls[i].get_body()))
                 {
@@ -153,7 +210,7 @@
                 }
             }
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             traps[i].update_trap();
         }
@@ -165,21 +222,21 @@
     // Checks player collisions with objects in room, dealing or healing the player as a result.
     void Room::check_player_collisions()
     {
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             if (enemies[i].has_hit(player->get_body()))
             {
                 player->take_damage(enemies[i].get_damage());
             }
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             if (traps[i].is_triggered(player->get_body()))
             {
                 player->take_damage(traps[i].get_damage());
             }
         }
-        for (int i = 0; i < num_consumables; i++)
+        for (int i = 0; i < health_consumables.size(); i++)
         {
             if (health_consumables[i].has_collided(player->get_body()))
             {
@@ -198,7 +255,7 @@
     // Checks collisions and interactions of enemies and traps with the other objects.
     void Room::check_other_collisions()
     {
-        for (int i = 0; i < num_enemies; i++)
+        for (int i = 0; i < enemies.size(); i++)
         {
             if (player->has_melee_attack_hit(enemies[i].get_body()))
             {
@@ -218,23 +275,23 @@
                 }
             }
         }
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
-            for (int j = 0; j < num_enemies; j++)
+            for (int j = 0; j < enemies.size(); j++)
             {
                 if (traps[i].is_triggered(enemies[j].get_body()))
                 {
                     enemies[j].take_damage(traps[i].get_damage());
                 }
             }
-            for (int i = 0; i < num_walls; i++) // causes arrow trap projectiles to delete arrows when coliided with walls
+            for (int i = 0; i < walls.size(); i++) // causes arrow trap projectiles to delete arrows when coliided with walls
             {
                 if (traps[i].is_triggered(walls[i].get_body()))
                 {
                     break;
                 }
             }
-            for (int i = 0; i < num_breakable_walls; i++) // causes arrow trap projectiles to delete arrows when coliided with breakable walls
+            for (int i = 0; i < breakable_walls.size(); i++) // causes arrow trap projectiles to delete arrows when coliided with breakable walls
             {
                 if (traps[i].is_triggered(breakable_walls[i].get_body()))
                 {
@@ -247,7 +304,7 @@
     // Toggles all traps' active state.
     void Room::toggle_traps()
     {
-        for (int i = 0; i < num_traps; i++)
+        for (int i = 0; i < traps.size(); i++)
         {
             traps[i].toggle_active();
         }
@@ -257,7 +314,7 @@
     bool Room::has_hit_walls(sf::Shape *body)
     {
         bool has_hit_wall = false;
-        for (int i = 0; i < num_walls; i++)
+        for (int i = 0; i < walls.size(); i++)
         {
             if (walls[i].has_collided(body))
             {
@@ -265,7 +322,7 @@
                 break;
             }
         }
-        for (int i = 0; i < num_breakable_walls; i++)
+        for (int i = 0; i < breakable_walls.size(); i++)
         {
             if (has_hit_wall = true)
             {
@@ -301,6 +358,16 @@
         return player->has_collided(exit.get_body());
     }
 
+    std::vector<RoomObject> Room::get_walls() { return walls; }
+
+    std::vector<Entity> Room::get_breakable_walls() { return breakable_walls; }
+
+    std::vector<Enemy> Room::get_enemies() { return enemies; }
+
+    std::vector<Trap> Room::get_traps() { return traps; }
+
+    std::vector<HealthConsumable> Room::get_health_consumables() { return health_consumables; }
+
         Room::~Room() {
         // Clean up dynamically allocated memory
         for (int i = 0; i < LENGTH_OF_ROOM; ++i) {
@@ -310,6 +377,4 @@
             delete[] tiles_room[i];  // Delete the row
         }
         delete[] tiles_room;  // Delete the array of rows
-
-
         }

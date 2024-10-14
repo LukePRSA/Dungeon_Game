@@ -32,17 +32,13 @@ private:
 
     void load_room(const std::string &filename);
 
-    RoomObject *walls;
-    int num_walls;
-    Entity *breakable_walls;
-    int num_breakable_walls;
-    Enemy *enemies;
+    int level;
+    std::vector<RoomObject> walls;
+    std::vector<Entity> breakable_walls;
+    std::vector<Enemy> enemies;
     int num_alive_entities;
-    int num_enemies;
-    Trap *traps;
-    int num_traps;
-    HealthConsumable *health_consumables;
-    int num_consumables;
+    std::vector<Trap> traps;
+    std::vector<HealthConsumable> health_consumables;
     Player *player;
     RoomObject entrance;
     sf::Vector2f start_position;
@@ -65,6 +61,12 @@ public:
     void check_exit_availability();
     bool has_collided_with_entrance();
     bool has_collided_with_exit();
+
+    std::vector<RoomObject> get_walls();
+    std::vector<Entity> get_breakable_walls();
+    std::vector<Enemy> get_enemies();
+    std::vector<Trap> get_traps();
+    std::vector<HealthConsumable> get_health_consumables();
 
     ~Room();
 };
