@@ -1,0 +1,17 @@
+renamed Attack_projectile to Projectile as it was a simpler name for it
+
+removed save_object functions from all classes except Player as the only thing that was saved with each object was the positions, as to simplify the saving process
+
+changed approach_player function parameter of Melee_enemy class to just use a vector of the difference between player and enemy position since it also describes direction and the two parameters are unneeded
+
+added calculator functions to Enemy class for distance in vector and scalar form of an enemy to simplify perform_ai functions in its children
+
+removed change_body_colour from Room_object class as it can be easily replicated using get_body()->setFillColor
+
+replaced Vector3 instances used for colour of an object's body with the sfml class for colours, Color
+
+added is_triggered and toggle_active functions to Trap class to differentiate the trigger from has_collided of RoomObject and to allow traps to be disarmed
+
+added enums to RoomObject for rotation/direction and type of shape the object is. The former is used in many of its children.
+
+added has_hit pure virtual function to Enemy classes to seperate it from has_collided in case their bodies' actual collisions are needed
