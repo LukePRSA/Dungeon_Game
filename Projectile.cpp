@@ -1,12 +1,12 @@
 #include "Projectile.h"
 
 // Creates a circular/square projectile.
-Projectile::Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(shape, size, colour, sf::Vector2f(-1,-1)) {}
+Projectile::Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour) : RoomObject(shape, size, colour, sf::Vector2f(-1,-1)), movement_speed(speed), lifespan(lifespan) {}
 
 // Creates a rectangular projectile.
-Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : movement_speed(speed), lifespan(lifespan), RoomObject(length, width, colour, sf::Vector2f(-1,-1)) {}
+Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : RoomObject(length, width, colour, sf::Vector2f(-1,-1)), movement_speed(speed), lifespan(lifespan) {}
 
-Projectile::Projectile() : movement_speed(0), lifespan(0), RoomObject() {}
+Projectile::Projectile() : RoomObject(), movement_speed(0), lifespan(0) {}
 
 // Spawns projectile at given position in given direction.
 void Projectile::launch_projectile(Rotation direction, sf::Vector2f position)

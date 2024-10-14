@@ -11,7 +11,7 @@ private:
     bool active = true;
 
 public:
-    HealthConsumable(int health_bonus, sf::Vector2f position);
+    HealthConsumable(int health_bonus_percentage, sf::Vector2f position);
     HealthConsumable();
     bool has_collided(sf::Shape *body);
     void destroy_consumable();

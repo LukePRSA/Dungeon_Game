@@ -1,10 +1,10 @@
 #include "Trap.h"
 
 // Creates a trap with given parameters at the given position.
-Trap::Trap(int level, int damage, int max_cooldown, ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : level(level), damage(damage), max_cooldown(max_cooldown), RoomObject(shape, width, colour, position) {}
+Trap::Trap(int level, int damage, int max_cooldown, ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : RoomObject(shape, width, colour, position), level(level), damage(damage), max_cooldown(max_cooldown) {}
 
 // Creates a default trap off-screen.
-Trap::Trap() : level(0), damage(0), max_cooldown(0), RoomObject() {}
+Trap::Trap() : RoomObject(), level(0), damage(0), max_cooldown(0) {}
 
 int Trap::get_level() { return level; }
 

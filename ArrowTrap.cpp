@@ -1,7 +1,7 @@
 #include "ArrowTrap.h"
 
 // Creates a light grey arrow trap that shoots arrows in the given direction from the given position.
-ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position) : direction(direction), Trap(level, level * 3, max_cooldown, square, 45, sf::Color(150, 150, 150), position)
+ArrowTrap::ArrowTrap(int level, int max_cooldown, Rotation direction, sf::Vector2f position) : Trap(level, level * 3, max_cooldown, square, 45, sf::Color(150, 150, 150), position), direction(direction)
 {
     switch (direction)
     {
