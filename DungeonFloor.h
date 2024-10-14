@@ -4,6 +4,7 @@
 
 #include "Room.h"
 #include "Tile.h"
+#include "Player.h"
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <vector>
@@ -19,6 +20,7 @@ class DungeonFloor{
         Room **floor_one;
         sf::RenderWindow& window;
         int active_room;
+        Player player;
 
     public:
         DungeonFloor(sf::RenderWindow& window);
