@@ -27,6 +27,7 @@ class Tile{
         const sf::RectangleShape& get_shape() const;
 
         char get_type() const;
+        sf::Vector2f get_center_pos();
 };
 
 

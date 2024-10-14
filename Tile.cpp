@@ -26,3 +26,12 @@
         char Tile::get_type() const {
             return tile_type;
         }
+        
+        sf::Vector2f Tile::get_center_pos(){
+            
+            sf::Vector2f size = tile_rect.getSize();
+            sf::Vector2f pos = tile_rect.getPosition();
+            
+            sf::Vector2f center_of_rect(pos.x + size.x / 2, pos.y + size.y / 2);
+            return center_of_rect;
+        }

@@ -55,7 +55,7 @@ int main(){
 
         //testing
         sf::Vector2i mouse_pos = sf::Mouse::getPosition(window); // mouse pos for testing.
-        //dungeon_floor.testing_mouse_collision(mouse_pos);
+        dungeon_floor.testing_mouse_collision(mouse_pos);
         std::cout << "Currently on floor: " << dungeon_floor.get_active_room() + 1<< std::endl;
 
 

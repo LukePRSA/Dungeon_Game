@@ -74,7 +74,7 @@
                 for(int j = 0 ; j < WIDTH_OF_ROOM; j++){
                     if (floor_one[active_room]->get_tiles()[i][j]->get_shape().getGlobalBounds().contains(static_cast<sf::Vector2f>(mouse_pos))){
 
-                        std::cout << "COLLIDE";
+                        std::cout << "COLLIDE" << "Rect at central pos (x,y): " << "  ("<< floor_one[active_room]->get_tiles()[i][j]->get_center_pos().x << ", " << floor_one[active_room]->get_tiles()[i][j]->get_center_pos().y << ")" << std::endl;
                         return true;
                     }    
                     else{
