@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "Projectile.h"
+#include <iostream>
 
 // Represents the user-controlled player in the game with movements and attacks.
 class Player : public Entity
@@ -57,6 +58,8 @@ public:
     void set_dodge_cooldown(int cooldown);
     int get_movement_speed();
     void set_movement_speed(int speed);
+    int get_dodge_distance_multiplier();
+    void set_dodge_distance_multiplier(int multiplier);
 };
 
 #endif

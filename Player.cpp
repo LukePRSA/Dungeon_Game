@@ -80,6 +80,10 @@ void Player::dodge()
         position = body->getPosition();
         dodge_cooldown = 3;
     }
+    else
+    {
+        std::cout << "Dodge is on cooldown for " << dodge_cooldown << " turns." << std::endl;
+    }
 }
 
 // Increase xp by given amount. If above 10 times level, levels up, increasing stats.
@@ -89,7 +93,7 @@ void Player::gain_xp(int xp_gained)
     if (xp >= 10 * level)
     {
         level++;
-        xp = xp - (10 * (level-1));
+        xp = xp - (10 * (level - 1));
         if (xp > 10 * level)
         {
             xp = level - 1;
@@ -134,6 +138,10 @@ void Player::attack_long()
             ranged_projectiles[i].launch_projectile(rotation, position);
             projectile_cooldowns[i] = max_projectile_cooldown;
             break;
+        }
+        if (i = 2)
+        {
+            std::cout << "Ranged attack is on cooldown." << std::endl;
         }
     }
 }
@@ -234,3 +242,7 @@ void Player::set_dodge_cooldown(int cooldown) { dodge_cooldown = cooldown; }
 int Player::get_movement_speed() { return movement_speed; }
 
 void Player::set_movement_speed(int speed) { movement_speed = speed; }
+
+int Player::get_dodge_distance_multiplier() { return dodge_distance_multiplier; }
+
+void Player::set_dodge_distance_multiplier(int multiplier) { dodge_distance_multiplier = multiplier; }

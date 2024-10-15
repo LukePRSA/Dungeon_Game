@@ -44,6 +44,7 @@ private:
     sf::Vector2f start_position;
     RoomObject exit;
     sf::Vector2f end_position;
+    bool can_exit = false;
 
 public:
     Room(const std::string &file_name);
@@ -61,6 +62,7 @@ public:
     void check_exit_availability();
     bool has_collided_with_entrance();
     bool has_collided_with_exit();
+    bool can_player_exit();
 
     std::vector<RoomObject*> get_walls();
     std::vector<Entity*> get_breakable_walls();

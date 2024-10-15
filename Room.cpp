@@ -39,6 +39,7 @@ Room::Room(const std::string &file_name)
         }
     }
 
+    // places objects in room at corresponding tiles
     for (int i = 0; i < LENGTH_OF_ROOM; i++)
     {
         for (int j = 0; i < WIDTH_OF_ROOM; i++)
@@ -97,6 +98,7 @@ Room::Room(const std::string &file_name)
         }
     }
 }
+
 std::vector<std::string> Room::get_layout_room()
 {
     return layout_room;
@@ -235,6 +237,7 @@ void Room::check_player_collisions()
         if (enemies[i]->has_hit(player->get_body()))
         {
             player->take_damage(enemies[i]->get_damage());
+            std::cout << "Hit by enemy for " << enemies[i]->get_damage() << " damage." << std::endl;
         }
     }
     for (int i = 0; i < traps.size(); i++)
@@ -242,6 +245,7 @@ void Room::check_player_collisions()
         if (traps[i]->is_triggered(player->get_body()))
         {
             player->take_damage(traps[i]->get_damage());
+            std::cout << "Hit by trap for " << traps[i]->get_damage() << " damage." << std::endl;
         }
     }
     for (int i = 0; i < health_consumables.size(); i++)
@@ -249,6 +253,7 @@ void Room::check_player_collisions()
         if (health_consumables[i]->has_collided(player->get_body()))
         {
             player->heal_hp(health_consumables[i]->get_health_bonus_percentage() * player->get_max_hp());
+            std::cout << "Used consumable to heal " << health_consumables[i]->get_health_bonus_percentage() << "%% of hp." << std::endl;
         }
     }
     for (int i = 0; i < 3; i++)
@@ -268,18 +273,23 @@ void Room::check_other_collisions()
         if (player->has_melee_attack_hit(enemies[i]->get_body()))
         {
             enemies[i]->take_damage(player->get_melee_damage());
+            std::cout << "Dealt " << player->get_melee_damage() << " damage to enemy, it has " << enemies[i]->get_hp() << " hp remaining." << std::endl;
             if (enemies[i]->is_alive() == false)
             {
                 player->gain_xp(enemies[i]->get_xp());
                 num_alive_entities--;
+                std::cout << "Defeated enemy! " << num_alive_entities << " enemies remain." << std::endl;
             }
         }
         if (player->has_ranged_projectile_hit(enemies[i]->get_body()))
         {
-            enemies[i]->take_damage(player->get_melee_damage());
+            enemies[i]->take_damage(player->get_ranged_damage());
+            std::cout << "Dealt " << player->get_melee_damage() << " damage to enemy, it has " << enemies[i]->get_hp() << " hp remaining." << std::endl;
             if (enemies[i]->is_alive() == false)
             {
                 player->gain_xp(enemies[i]->get_xp());
+                num_alive_entities--;
+                std::cout << "Defeated enemy! " << num_alive_entities << " enemies remain." << std::endl;
             }
         }
     }
@@ -290,21 +300,16 @@ void Room::check_other_collisions()
             if (traps[i]->is_triggered(enemies[j]->get_body()))
             {
                 enemies[j]->take_damage(traps[i]->get_damage());
+                std::cout << "Enemy triggered trap, taking " << traps[i]->get_damage() << " damage." << std::endl;
             }
         }
         for (int i = 0; i < walls.size(); i++) // causes arrow trap projectiles to delete arrows when coliided with walls
         {
-            if (traps[i]->is_triggered(walls[i]->get_body()))
-            {
-                break;
-            }
+            traps[i]->is_triggered(walls[i]->get_body());
         }
         for (int i = 0; i < breakable_walls.size(); i++) // causes arrow trap projectiles to delete arrows when coliided with breakable walls
         {
-            if (traps[i]->is_triggered(breakable_walls[i]->get_body()))
-            {
-                break;
-            }
+            traps[i]->is_triggered(breakable_walls[i]->get_body());
         }
     }
 }
@@ -348,9 +353,12 @@ bool Room::has_hit_walls(sf::Shape *body)
 // Reveals exit if there are 0 or less enemies present.
 void Room::check_exit_availability()
 {
-    if (num_alive_entities <= 0)
+    if (num_alive_entities <= 0 && can_exit == false)
     {
         exit.get_body()->setFillColor(sf::Color(0, 127, 0, 255));
+        can_exit = true;
+        toggle_traps();
+        std::cout << "Exit to room has been unlocked! Traps disarmed!" << std::endl;
     }
 }
 
@@ -365,6 +373,8 @@ bool Room::has_collided_with_exit()
 {
     return player->has_collided(exit.get_body());
 }
+
+bool Room::can_player_exit() { return can_exit; }
 
 std::vector<RoomObject*> Room::get_walls() { return walls; }
 

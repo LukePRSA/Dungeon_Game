@@ -95,6 +95,124 @@ bool DungeonFloor::testing_mouse_collision(sf::Vector2i mouse_pos)
     return false;
 }
 
+void DungeonFloor::run_dungeon()
+{
+    while (window.isOpen())
+    {
+        sf::Event event;
+        if (event.type == sf::Event::Closed)
+        {
+            window.close();
+        }
+        check_user_inputs(event);
+        // add rest of stuff for updating moves
+    }
+}
+
+// Waits for user input and uses it as a player turn. If the player moves into a wall, they bounce back.
+void DungeonFloor::check_user_inputs(sf::Event event)
+{
+    bool has_user_pressed_key = false;
+    while (has_user_pressed_key == false)
+    {
+        if (event.type == sf::Event::Closed)
+        {
+            window.close();
+        }
+        if (event.type == sf::Event::KeyPressed)
+        {
+            switch (event.key.code)
+            {
+                case sf::Keyboard::W:
+                    player.move_up();
+                    if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                    {
+                        player.move_down();
+                    }
+                    has_user_pressed_key = true;
+                    break;
+                case sf::Keyboard::A:
+                    player.move_left();
+                    if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                    {
+                        player.move_right();
+                    }
+                    has_user_pressed_key = true;
+                    break;
+                case sf::Keyboard::S:
+                    player.move_down();
+                    if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                    {
+                        player.move_up();
+                    }
+                    has_user_pressed_key = true;
+                    break;
+                case sf::Keyboard::D:
+                    player.move_right();
+                    if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                    {
+                        player.move_left();
+                    }
+                    has_user_pressed_key = true;
+                    break;
+                case sf::Keyboard::Space:
+                    if (player.get_dodge_cooldown() <= 0)
+                    {
+                        for (int i = 0; i < player.get_dodge_distance_multiplier(); i++)
+                        {
+                            player.dodge();
+                            // reverses movement if dodging into a wall
+                            if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                            {
+                                switch (player.get_rotation())
+                                {
+                                case RoomObject::up:
+                                    player.move_down();
+                                    break;
+                                case RoomObject::right:
+                                    player.move_left();
+                                    break;
+                                case RoomObject::left:
+                                    player.move_right();
+                                    break;
+                                case RoomObject::down:
+                                    player.move_up();
+                                    break;
+                                }
+                            }
+                        }
+                        has_user_pressed_key = true;
+                    }
+                    break;
+                case sf::Keyboard::O:
+                    player.attack_close();
+                    has_user_pressed_key = true;
+                    break;
+                case sf::Keyboard::P:
+                {
+                    player.attack_long();
+                    has_user_pressed_key = true;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void DungeonFloor::to_next_room()
+{
+    floor_one[active_room]->unload_objects();
+    active_room++;
+    floor_one[active_room]->load_objects(false);
+}
+
+void DungeonFloor::to_previous_room()
+{
+    floor_one[active_room]->unload_objects();
+    active_room--;
+    floor_one[active_room]->load_objects(true);
+}
+
 DungeonFloor::~DungeonFloor()
 {
     // Clean up dynamically allocated memory
