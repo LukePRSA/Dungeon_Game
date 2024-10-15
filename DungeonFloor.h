@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+
 extern const int TILE_SIZE_TO_PIXELS;
 extern const int NUM_ROOMS_PER_FLOOR;
 extern const int LENGTH_OF_ROOM;
@@ -18,12 +19,13 @@ extern const int WIDTH_OF_ROOM;
 class DungeonFloor{
     private:
         Room **floor_one;
-        sf::RenderWindow& window;
+        sf::RenderWindow window;
         int active_room;
         Player player;
+        bool complete = false;
 
     public:
-        DungeonFloor(sf::RenderWindow& window);
+        DungeonFloor();
         void draw_room();
         int get_active_room();
         void set_active_room(int room_num);

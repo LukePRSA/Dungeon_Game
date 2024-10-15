@@ -2,16 +2,18 @@
 #define BASIC_BOSS_H
 
 #include <stdlib.h>
-#include<time.h>
+#include <time.h>
 #include "Enemy.h"
 #include "Projectile.h"
 #include "MeleeEnemy.h"
+
+extern const int TILE_SIZE_TO_PIXELS;
 
 // Represents a powerful boss enemy that has melee and ranged attacks.
 class BasicBoss : public MeleeEnemy
 {
 private:
-    Projectile ranged_attacks[2]; // add projectiles
+    Projectile ranged_attacks[2] = {{TILE_SIZE_TO_PIXELS, 4, circle, 24, sf::Color(150, 0, 0)}, {TILE_SIZE_TO_PIXELS, 4, circle, 24, sf::Color(150, 0, 0)}};
     int base_damage;
     void launch_projectile();
 

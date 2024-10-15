@@ -47,7 +47,7 @@ private:
     bool can_exit = false;
 
 public:
-    Room(const std::string &file_name);
+    Room(const std::string &file_name, Player* player);
     std::vector<std::string> get_layout_room();
     Tile ***get_tiles();
 

@@ -26,17 +26,33 @@ private:
             {
                 std::cout << "Test 1.1 (launch loaded projectile, is active) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 1.1 (launch loaded projectile, is active) passed." << std::endl;
+            }
             if (projectile.get_direction() != RoomObject::left)
             {
                 std::cout << "Test 1.2 (launch loaded projectile, right direction) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 1.2 (launch loaded projectile, right direction) passed." << std::endl;
             }
             if (projectile.get_position() != sf::Vector2f(25, 25))
             {
                 std::cout << "Test 1.3 (launch loaded projectile, attribute at position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 1.3 (launch loaded projectile, attribute at position) passed." << std::endl;
+            }
             if (projectile.get_body()->getPosition() != sf::Vector2f(25, 25))
             {
                 std::cout << "Test 1.4 (launch loaded projectile, body at position) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 1.4 (launch loaded projectile, body at position) passed." << std::endl;
             }
         }
 
@@ -47,17 +63,33 @@ private:
             {
                 std::cout << "Test 2.1 (launch unloaded projectile, is active) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 2.1 (launch unloaded projectile, is active) passed." << std::endl;
+            }
             if (projectile.get_direction() == RoomObject::left) // default is right
             {
                 std::cout << "Test 2.2 (launch unloaded projectile, right direction) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 2.2 (launch unloaded projectile, right direction) passed." << std::endl;
             }
             if (projectile.get_position() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 2.3 (launch unloaded projectile, attribute at position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 2.3 (launch unloaded projectile, attribute at position) passed." << std::endl;
+            }
             if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 2.4 (launch unloaded projectile, body at position) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 2.4 (launch unloaded projectile, body at position) passed." << std::endl;
             }
         }
     }
@@ -73,13 +105,25 @@ private:
             {
                 std::cout << "Test 3.1 (update projectile once, turns_since_launch) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 3.1 (update projectile once, turns_since_launch) passed." << std::endl;
+            }
             if (projectile.get_position() != sf::Vector2f(23, 25))
             {
                 std::cout << "Test 3.2 (update projectile once, expected position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 3.2 (update projectile once, expected position) passed." << std::endl;
+            }
             if (projectile.is_active() != true)
             {
                 std::cout << "Test 3.3 (update projectile once, is active) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 3.3 (update projectile once, is active) passed." << std::endl;
             }
         }
 
@@ -95,13 +139,25 @@ private:
             {
                 std::cout << "Test 4.1 (update projectile until it exceeds lifespan, turns_since_launch) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 4.1 (update projectile until it exceeds lifespan, turns_since_launch) passed." << std::endl;
+            }
             if (projectile.get_position() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 4.2 (update projectile until it exceeds lifespan, expected position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 4.2 (update projectile until it exceeds lifespan, expected position) passed." << std::endl;
+            }
             if (projectile.is_active() != false)
             {
                 std::cout << "Test 4.3 (update projectile until it exceeds lifespan, is active) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 4.3 (update projectile until it exceeds lifespan, is active) passed." << std::endl;
             }
         }
     }
@@ -116,17 +172,33 @@ private:
             {
                 std::cout << "Test 5.1 (despawn launched projectile, turns_since_launch) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 5.1 (despawn launched projectile, turns_since_launch) passed." << std::endl;
+            }
             if (projectile.get_position() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 5.2 (update projectile until it exceeds lifespan, expected position) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 5.2 (update projectile until it exceeds lifespan, expected position) passed." << std::endl;
             }
             if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 5.3 (update projectile until it exceeds lifespan, expected body position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 5.3 (update projectile until it exceeds lifespan, expected body position) passed." << std::endl;
+            }
             if (projectile.is_active() != false)
             {
                 std::cout << "Test 5.4 (update projectile until it exceeds lifespan, is active) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 5.4 (update projectile until it exceeds lifespan, is active) passed." << std::endl;
             }
         }
     }
@@ -145,13 +217,25 @@ private:
             {
                 std::cout << "Test 6.1 (test collision, expected position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 6.1 (test collision, expected position) passed." << std::endl;
+            }
             if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
             {
                 std::cout << "Test 6.2 (test collision, expected body position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 6.2 (test collision, expected body position) passed." << std::endl;
+            }
             if (projectile.is_active() != false)
             {
                 std::cout << "Test 6.3 (test collision, is active) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 6.3 (test collision, is active) passed." << std::endl;
             }
         }
 
@@ -167,13 +251,25 @@ private:
             {
                 std::cout << "Test 7.1 (test non-collision, expected position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 7.1 (test non-collision, expected position) passed." << std::endl;
+            }
             if (projectile.get_body()->getPosition() != sf::Vector2f(25, 25))
             {
                 std::cout << "Test 7.2 (test non-collision, expected body position) failed." << std::endl;
             }
+            else
+            {
+                std::cout << "Test 7.2 (test non-collision, expected body position) passed." << std::endl;
+            }
             if (projectile.is_active() != true)
             {
                 std::cout << "Test 7.3 (test non-collision, is active) failed." << std::endl;
+            }
+            else
+            {
+                std::cout << "Test 7.3 (test non-collision, is active) passed." << std::endl;
             }
         }
     }

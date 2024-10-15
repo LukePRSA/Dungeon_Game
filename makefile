@@ -95,8 +95,39 @@ clean_test_Player:
 	rm -f Projectile.o
 	rm -f Entity.o
 	rm -f Player.o
+	rm -f PlayerTest
 
-# Test 
+# Build and run MeleeEnemy test
+
+test_MeleeEnemy:
+	$(CXX) $(CXXFLAGS) -c MeleeEnemyTest_main.cpp
+
+	$(CXX) $(CXXFLAGS) -c RoomObject.cpp
+
+	$(CXX) $(CXXFLAGS) -c Projectile.cpp
+
+	$(CXX) $(CXXFLAGS) -c Entity.cpp
+
+	$(CXX) $(CXXFLAGS) -c Enemy.cpp
+
+	$(CXX) $(CXXFLAGS) -c MeleeEnemy.cpp
+
+	$(CXX) MeleeEnemyTest_main.o RoomObject.o Projectile.o Entity.o Enemy.o MeleeEnemy.o -o MeleeEnemyTest $(SFML)
+
+	./MeleeEnemyTest
+
+# Clean Player test
+
+clean_test_MeleeEnemy:
+	rm -f MeleeEnemyTest_main.o
+	rm -f RoomObject.o
+	rm -f Projectile.o
+	rm -f Entity.o
+	rm -f Enemy.o
+	rm -f MeleeEnemy.o
+	rm -f MeleeEnemyTest
+
+# Build and run all files
 
 build_all:
 
@@ -140,7 +171,7 @@ build_all:
 
 	./game
 	
-# Clean test
+# Clean all files
 
 clean_all:
 	rm -f main.o
@@ -160,3 +191,4 @@ clean_all:
 	rm -f StrikerTarget.o
 	rm -f BasicBoss.o
 	rm -f HealthConsumable.o
+	rm -f game

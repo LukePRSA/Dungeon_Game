@@ -139,7 +139,7 @@ void Player::attack_long()
             projectile_cooldowns[i] = max_projectile_cooldown;
             break;
         }
-        if (i = 2)
+        if (i == 2)
         {
             std::cout << "Ranged attack is on cooldown." << std::endl;
         }

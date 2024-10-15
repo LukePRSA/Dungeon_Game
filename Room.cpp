@@ -24,7 +24,7 @@ void Room::load_room(const std::string &filename)
     file.close();
 }
 
-Room::Room(const std::string &file_name)
+Room::Room(const std::string &file_name, Player* player) : level(player->get_level()), player(player)
 {
     load_room(file_name);
     tiles_room = new Tile **[LENGTH_OF_ROOM];
@@ -75,6 +75,9 @@ Room::Room(const std::string &file_name)
                 break;
             case 'z':
                 traps.emplace_back(new ArrowTrap(level, 3, TILE_SIZE_TO_PIXELS, RoomObject::right, tiles_room[i][j]->get_center_pos()));
+                break;
+            case 's':
+                traps.emplace_back(new SpikeTrap(level, 5, tiles_room[i][j]->get_center_pos()));
                 break;
             case 'H':
                 health_consumables.emplace_back(new HealthConsumable(50, tiles_room[i][j]->get_center_pos()));
