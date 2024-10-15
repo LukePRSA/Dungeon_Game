@@ -5,6 +5,8 @@
 #include "Projectile.h"
 #include <iostream>
 
+extern const int TILE_SIZE_TO_PIXELS;
+
 // Represents the user-controlled player in the game with movements and attacks.
 class Player : public Entity
 {
@@ -13,7 +15,7 @@ private:
     int ranged_damage;
     Rotation rotation = right;
     Projectile melee_attack{0, 1, 60, 160, sf::Color(0, 255, 128)};
-    Projectile ranged_projectiles[3]{{58, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}, {1, 5, 50, 20, sf::Color(0, 255, 128)}};
+    Projectile ranged_projectiles[3]{{TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(0, 255, 128)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(0, 255, 128)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(0, 255, 128)}};
     int max_projectile_cooldown = 10;
     int projectile_cooldowns[3] = {0, 0, 0};
     int max_dodge_cooldown = 3;

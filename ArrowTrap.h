@@ -4,11 +4,13 @@
 #include "Trap.h"
 #include "Projectile.h"
 
+extern const int TILE_SIZE_TO_PIXELS;
+
 // Represents a trap that passively shoots arrows in a specific direction.
 class ArrowTrap : public Trap
 {
 private:
-    Projectile arrows[5] = {{58, 5, 35, 10, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}, {58, 5, 50, 20, sf::Color(97, 64, 46)}};
+    Projectile arrows[5] = {{TILE_SIZE_TO_PIXELS, 5, 35, 10, sf::Color(97, 64, 46)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(97, 64, 46)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(97, 64, 46)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(97, 64, 46)}, {TILE_SIZE_TO_PIXELS, 5, 50, 20, sf::Color(97, 64, 46)}};
     Rotation direction;
     int projectile_speed;
 

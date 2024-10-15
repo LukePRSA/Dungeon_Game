@@ -9,7 +9,7 @@ class MeleeEnemy : public Enemy
 {
 protected:
     Projectile melee_attack{0, 0, 60, 160, sf::Color(255, 60, 60)};
-    int movement_speed = 58;
+    int movement_speed;
     Rotation rotation = right;
     void approach_player(sf::Vector2f player_distance_vector);
     void attack();
