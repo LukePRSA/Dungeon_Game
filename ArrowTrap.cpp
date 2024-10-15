@@ -68,6 +68,7 @@ bool ArrowTrap::is_triggered(sf::Shape *body)
         }
         return has_hit;
     }
+    return false;
 }
 
 // Toggles active state. If deactivated, darkens colour and despawns projectiles. If reactivated, cooldown is set to 0 and brightens colour.
@@ -82,7 +83,7 @@ void ArrowTrap::toggle_active()
             arrows[i].despawn_projectile();
         }
     }
-    else if (active = false)
+    else if (active == false)
     {
         active = true;
         cooldown = 0;

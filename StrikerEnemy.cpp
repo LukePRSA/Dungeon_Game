@@ -35,7 +35,7 @@ void StrikerEnemy::update_attacks()
 // Returns true if the target is active and can deal damage.
 bool StrikerEnemy::has_hit(sf::Shape *body)
 {
-    if (loaded && target.is_active() && target.can_deal_damage())
+    if (loaded && target.is_active() && target.can_deal_damage() && target.has_collided(body))
     {
         return true;
     }

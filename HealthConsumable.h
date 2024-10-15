@@ -19,7 +19,7 @@ public:
     int get_health_bonus_percentage();
     void set_health_bonus_percentage(int percentage);
     bool is_active();
-    bool set_active(bool active);
+    void set_active(bool active);
 };
 
 #endif

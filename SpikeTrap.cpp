@@ -45,7 +45,7 @@ void SpikeTrap::toggle_active()
         active = false;
         body->setFillColor(sf::Color(25, 25, 25));
     }
-    else if (active = false)
+    else if (active == false)
     {
         active = true;
         cooldown = 0;

@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 // Creates a circular/square enemy with given parameters.
-Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position): Entity(level, xp, hp, shape, width, colour, position), damage(damage), max_cooldown(max_cooldown) {}
+Enemy::Enemy(int damage, int max_cooldown, int max_range, int level, int xp, int hp, ShapeType shape, int width, sf::Color colour, sf::Vector2f position): Entity(level, xp, hp, shape, width, colour, position), damage(damage), max_cooldown(max_cooldown), max_range(max_range) {}
 
 // Creates a default 0-width circle enemy.
 Enemy::Enemy(): Entity(), damage(0), max_cooldown(0), max_range(0) {}

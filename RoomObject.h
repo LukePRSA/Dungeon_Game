@@ -40,7 +40,7 @@ public:
     sf::Vector2f get_position();
     void set_position(sf::Vector2f position);
     sf::Shape *get_body();
-    ~RoomObject();
+    virtual ~RoomObject();
 };
 
 #endif

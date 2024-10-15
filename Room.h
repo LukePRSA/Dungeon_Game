@@ -33,12 +33,12 @@ private:
     void load_room(const std::string &filename);
 
     int level;
-    std::vector<RoomObject> walls;
-    std::vector<Entity> breakable_walls;
-    std::vector<Enemy> enemies;
+    std::vector<RoomObject*> walls;
+    std::vector<Entity*> breakable_walls;
+    std::vector<Enemy*> enemies;
     int num_alive_entities;
-    std::vector<Trap> traps;
-    std::vector<HealthConsumable> health_consumables;
+    std::vector<Trap*> traps;
+    std::vector<HealthConsumable*> health_consumables;
     Player *player;
     RoomObject entrance;
     sf::Vector2f start_position;
@@ -52,7 +52,7 @@ public:
 
     void load_objects(bool from_next_room);
     void unload_objects();
-    void draw_objects(sf::RenderWindow* display);
+    void draw_objects(sf::RenderWindow *display);
     void pass_turn();
     void check_player_collisions();
     void check_other_collisions();
@@ -62,11 +62,11 @@ public:
     bool has_collided_with_entrance();
     bool has_collided_with_exit();
 
-    std::vector<RoomObject> get_walls();
-    std::vector<Entity> get_breakable_walls();
-    std::vector<Enemy> get_enemies();
-    std::vector<Trap> get_traps();
-    std::vector<HealthConsumable> get_health_consumables();
+    std::vector<RoomObject*> get_walls();
+    std::vector<Entity*> get_breakable_walls();
+    std::vector<Enemy*> get_enemies();
+    std::vector<Trap*> get_traps();
+    std::vector<HealthConsumable*> get_health_consumables();
 
     ~Room();
 };

@@ -30,4 +30,4 @@ void HealthConsumable::set_health_bonus_percentage(int percentage) { health_bonu
 
 bool HealthConsumable::is_active() { return active; }
 
-bool HealthConsumable::set_active(bool active) { this->active = active; }
+void HealthConsumable::set_active(bool active) { this->active = active; }
