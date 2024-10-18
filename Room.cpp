@@ -40,9 +40,9 @@ Room::Room(const std::string &file_name, Player* player) : level(player->get_lev
     }
 
     // places objects in room at corresponding tiles
-    for (int i = 0; i < LENGTH_OF_ROOM; i++)
+    for (int i = 0; i < WIDTH_OF_ROOM; i++)
     {
-        for (int j = 0; i < WIDTH_OF_ROOM; i++)
+        for (int j = 0; i < LENGTH_OF_ROOM; i++)
         {
             switch (tiles_room[i][j]->get_type())
             {

@@ -8,9 +8,8 @@
 #include <iostream>
 #include "DungeonFloor.h"
 
-DungeonFloor::DungeonFloor() : player()
+DungeonFloor::DungeonFloor() : active_room(0), player(TILE_SIZE_TO_PIXELS)
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Template");
 
     floor_one = new Room *[NUM_ROOMS_PER_FLOOR];
 
@@ -19,13 +18,11 @@ DungeonFloor::DungeonFloor() : player()
     {
         floor_one[i] = new Room(file_path_rooms[i], &player);
     }
-
-    this->active_room = 0;
     floor_one[active_room]->load_objects(false);
-    floor_one[active_room]->draw_objects(&window);
 }
 
-// unused?
+// unused? for testing?
+/*
 void DungeonFloor::draw_room()
 {
 
@@ -66,6 +63,7 @@ void DungeonFloor::draw_room()
         }
     }
 }
+*/
 
 int DungeonFloor::get_active_room()
 {
@@ -103,41 +101,46 @@ bool DungeonFloor::testing_mouse_collision(sf::Vector2i mouse_pos)
 // Dungeon loop going through user inputs then allowing everything in the room update and collisions to be detected.
 void DungeonFloor::run_dungeon()
 {
+    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Template");
+
     while (window.isOpen())
     {
         sf::Event event;
-        if (event.type == sf::Event::Closed || complete)
+        while (window.pollEvent(event))
         {
-            window.close();
-        }
-        check_user_inputs(event);
-        player.update();
-        floor_one[active_room]->pass_turn();
-        if (floor_one[active_room]->can_player_exit() && floor_one[active_room]->has_collided_with_exit())
-        {
-            to_next_room();
-            if (active_room == NUM_ROOMS_PER_FLOOR)
+            if (event.type == sf::Event::Closed || complete == true)
             {
-                std::cout << "Last room, reach exit to win!" << std::endl;
+                window.close();
+            }
+            floor_one[active_room]->draw_objects(&window);
+            check_user_inputs(event, &window);
+            player.update();
+            floor_one[active_room]->pass_turn();
+            if (floor_one[active_room]->can_player_exit() && floor_one[active_room]->has_collided_with_exit())
+            {
+                to_next_room();
+                if (active_room == NUM_ROOMS_PER_FLOOR)
+                {
+                    std::cout << "Last room, reach exit to win!" << std::endl;
+                }
+            }
+            else if (floor_one[active_room]->has_collided_with_entrance())
+            {
+                to_previous_room();
             }
         }
-        else if (floor_one[active_room]->has_collided_with_entrance())
-        {
-            to_previous_room();
-        }
-        floor_one[active_room]->draw_objects(&window);
     }
 }
 
 // Waits for user input and uses it as a player turn. If the player moves into a wall, they bounce back.
-void DungeonFloor::check_user_inputs(sf::Event event)
+void DungeonFloor::check_user_inputs(sf::Event event, sf::RenderWindow *window)
 {
     bool has_user_pressed_key = false;
     while (has_user_pressed_key == false)
     {
         if (event.type == sf::Event::Closed)
         {
-            window.close();
+            window->close();
         }
         if (event.type == sf::Event::KeyPressed)
         {
@@ -156,6 +159,7 @@ void DungeonFloor::check_user_inputs(sf::Event event)
                 if (floor_one[active_room]->has_hit_walls(player.get_body()))
                 {
                     player.move_right();
+                    std::cout << "A" << std::endl;
                 }
                 has_user_pressed_key = true;
                 break;

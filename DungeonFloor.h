@@ -19,7 +19,6 @@ extern const int WIDTH_OF_ROOM;
 class DungeonFloor{
     private:
         Room **floor_one;
-        sf::RenderWindow window;
         int active_room;
         Player player;
         bool complete = false;
@@ -31,7 +30,7 @@ class DungeonFloor{
         void set_active_room(int room_num);
         bool testing_mouse_collision(sf::Vector2i mouse_pos);
         void run_dungeon();
-        void check_user_inputs(sf::Event event);
+        void check_user_inputs(sf::Event event, sf::RenderWindow *window);
         void to_next_room();
         void to_previous_room();
         ~DungeonFloor();
