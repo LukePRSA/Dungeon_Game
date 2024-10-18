@@ -102,6 +102,7 @@ bool DungeonFloor::testing_mouse_collision(sf::Vector2i mouse_pos)
 void DungeonFloor::run_dungeon()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Template");
+    floor_one[active_room]->draw_objects(&window);
 
     while (window.isOpen())
     {
@@ -112,115 +113,110 @@ void DungeonFloor::run_dungeon()
             {
                 window.close();
             }
-            floor_one[active_room]->draw_objects(&window);
-            check_user_inputs(event, &window);
-            player.update();
-            floor_one[active_room]->pass_turn();
-            if (floor_one[active_room]->can_player_exit() && floor_one[active_room]->has_collided_with_exit())
+            
+            if (check_user_inputs(event) == true)
             {
-                to_next_room();
-                if (active_room == NUM_ROOMS_PER_FLOOR)
+                player.update();
+                floor_one[active_room]->pass_turn();
+                if (floor_one[active_room]->can_player_exit() && floor_one[active_room]->has_collided_with_exit())
                 {
-                    std::cout << "Last room, reach exit to win!" << std::endl;
+                    to_next_room();
+                    if (active_room == NUM_ROOMS_PER_FLOOR)
+                    {
+                        std::cout << "Last room, reach exit to win!" << std::endl;
+                    }
                 }
-            }
-            else if (floor_one[active_room]->has_collided_with_entrance())
-            {
-                to_previous_room();
+                else if (floor_one[active_room]->has_collided_with_entrance())
+                {
+                    to_previous_room();
+                }
+                floor_one[active_room]->draw_objects(&window);
             }
         }
     }
 }
 
 // Waits for user input and uses it as a player turn. If the player moves into a wall, they bounce back.
-void DungeonFloor::check_user_inputs(sf::Event event, sf::RenderWindow *window)
+bool DungeonFloor::check_user_inputs(sf::Event event)
 {
-    bool has_user_pressed_key = false;
-    while (has_user_pressed_key == false)
+    if (event.type == sf::Event::KeyPressed)
     {
-        if (event.type == sf::Event::Closed)
+        switch (event.key.code)
         {
-            window->close();
-        }
-        if (event.type == sf::Event::KeyPressed)
-        {
-            switch (event.key.code)
+        case sf::Keyboard::W:
+            player.move_up();
+            if (floor_one[active_room]->has_hit_walls(player.get_body()))
             {
-            case sf::Keyboard::W:
-                player.move_up();
-                if (floor_one[active_room]->has_hit_walls(player.get_body()))
-                {
-                    player.move_down();
-                }
-                has_user_pressed_key = true;
-                break;
-            case sf::Keyboard::A:
-                player.move_left();
-                if (floor_one[active_room]->has_hit_walls(player.get_body()))
-                {
-                    player.move_right();
-                    std::cout << "A" << std::endl;
-                }
-                has_user_pressed_key = true;
-                break;
-            case sf::Keyboard::S:
                 player.move_down();
-                if (floor_one[active_room]->has_hit_walls(player.get_body()))
-                {
-                    player.move_up();
-                }
-                has_user_pressed_key = true;
-                break;
-            case sf::Keyboard::D:
+            }
+            return true;
+            break;
+        case sf::Keyboard::A:
+            player.move_left();
+            if (floor_one[active_room]->has_hit_walls(player.get_body()))
+            {
                 player.move_right();
-                if (floor_one[active_room]->has_hit_walls(player.get_body()))
+            }
+            return true;
+            break;
+        case sf::Keyboard::S:
+            player.move_down();
+            if (floor_one[active_room]->has_hit_walls(player.get_body()))
+            {
+                player.move_up();
+            }
+            return true;
+            break;
+        case sf::Keyboard::D:
+            player.move_right();
+            if (floor_one[active_room]->has_hit_walls(player.get_body()))
+            {
+                player.move_left();
+            }
+            return true;
+            break;
+        case sf::Keyboard::Space:
+            if (player.get_dodge_cooldown() <= 0)
+            {
+                for (int i = 0; i < player.get_dodge_distance_multiplier(); i++)
                 {
-                    player.move_left();
-                }
-                has_user_pressed_key = true;
-                break;
-            case sf::Keyboard::Space:
-                if (player.get_dodge_cooldown() <= 0)
-                {
-                    for (int i = 0; i < player.get_dodge_distance_multiplier(); i++)
+                    player.dodge();
+                    // reverses movement if dodging into a wall
+                    if (floor_one[active_room]->has_hit_walls(player.get_body()))
                     {
-                        player.dodge();
-                        // reverses movement if dodging into a wall
-                        if (floor_one[active_room]->has_hit_walls(player.get_body()))
+                        switch (player.get_rotation())
                         {
-                            switch (player.get_rotation())
-                            {
-                            case RoomObject::up:
-                                player.move_down();
-                                break;
-                            case RoomObject::right:
-                                player.move_left();
-                                break;
-                            case RoomObject::left:
-                                player.move_right();
-                                break;
-                            case RoomObject::down:
-                                player.move_up();
-                                break;
-                            }
+                        case RoomObject::up:
+                            player.move_down();
+                            break;
+                        case RoomObject::right:
+                            player.move_left();
+                            break;
+                        case RoomObject::left:
+                            player.move_right();
+                            break;
+                        case RoomObject::down:
+                            player.move_up();
+                            break;
                         }
                     }
-                    has_user_pressed_key = true;
                 }
-                break;
-            case sf::Keyboard::O:
-                player.attack_close();
-                has_user_pressed_key = true;
-                break;
-            case sf::Keyboard::P:
-                player.attack_long();
-                has_user_pressed_key = true;
-                break;
-            default:
-                break;
             }
+            return true;
+            break;
+        case sf::Keyboard::O:
+            player.attack_close();
+            return true;
+            break;
+        case sf::Keyboard::P:
+            player.attack_long();
+            return true;
+            break;
+        default:
+            break;
         }
     }
+    return false;
 }
 
 // Unloads current room and loads next one
@@ -254,4 +250,5 @@ DungeonFloor::~DungeonFloor()
         delete floor_one[i];
     }
     delete[] floor_one;
+    std::cout << "SuccessDF" << std::endl;
 }

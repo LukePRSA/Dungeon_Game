@@ -1,4 +1,5 @@
 #include "RoomObject.h"
+#include <iostream>
 
 // Creates the body as a square or circle, based on chosen Shape.
 RoomObject::RoomObject(ShapeType shape, int width, sf::Color colour, sf::Vector2f position) : position(position)
@@ -33,6 +34,8 @@ RoomObject::RoomObject() : RoomObject(square, 0, sf::Color(255, 255, 255), sf::V
 void RoomObject::draw_object(sf::RenderWindow *display)
 {
     display->draw(*body);
+    std::cout << body->getPosition().x << "," << body->getPosition().y << std::endl;
+    display->display();
 }
 
 // Loads the object at its given position.
@@ -81,4 +84,5 @@ sf::Shape *RoomObject::get_body() { return body; }
 RoomObject::~RoomObject()
 {
     delete body;
+    std::cout << "SuccessRO" << std::endl;
 }

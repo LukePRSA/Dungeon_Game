@@ -27,6 +27,7 @@ void Room::load_room(const std::string &filename)
 Room::Room(const std::string &file_name, Player* player) : level(player->get_level()), player(player)
 {
     load_room(file_name);
+
     tiles_room = new Tile **[LENGTH_OF_ROOM];
 
     for (int i = 0; i < LENGTH_OF_ROOM; i++)
@@ -36,13 +37,14 @@ Room::Room(const std::string &file_name, Player* player) : level(player->get_lev
         for (int j = 0; j < WIDTH_OF_ROOM; j++)
         {
             tiles_room[i][j] = new Tile(layout_room[i][j]);
+            tiles_room[i][j]->set_position(j * TILE_SIZE_TO_PIXELS, i * TILE_SIZE_TO_PIXELS);
         }
     }
 
     // places objects in room at corresponding tiles
-    for (int i = 0; i < WIDTH_OF_ROOM; i++)
+    for (int i = 0; i < LENGTH_OF_ROOM; i++)
     {
-        for (int j = 0; i < LENGTH_OF_ROOM; i++)
+        for (int j = 0; j < WIDTH_OF_ROOM; j++)
         {
             switch (tiles_room[i][j]->get_type())
             {
@@ -100,6 +102,11 @@ Room::Room(const std::string &file_name, Player* player) : level(player->get_lev
             }
         }
     }
+    std::cout << walls.size() << std::endl;
+    std::cout << breakable_walls.size() << std::endl;
+    std::cout << enemies.size() << std::endl;
+    std::cout << traps.size() << std::endl;
+    std::cout << health_consumables.size() << std::endl;
 }
 
 std::vector<std::string> Room::get_layout_room()
@@ -117,7 +124,6 @@ void Room::load_objects(bool from_next_room)
 {
     for (int i = 0; i < walls.size(); i++)
     {
-
         walls[i]->load_object();
     }
     for (int i = 0; i < breakable_walls.size(); i++)
@@ -144,6 +150,7 @@ void Room::load_objects(bool from_next_room)
     {
         player->set_position(start_position);
     }
+    std::cout << "Loaded room" << std::endl;
 }
 
 // Unloads all objects in room.
@@ -169,6 +176,7 @@ void Room::unload_objects()
     {
         health_consumables[i]->unload_object();
     }
+    std::cout << "Unloaded room" << std::endl;
 }
 
 // Draws all objects in room to given display.
@@ -176,24 +184,29 @@ void Room::draw_objects(sf::RenderWindow *display)
 {
     for (int i = 0; i < walls.size(); i++)
     {
-        walls[i]->draw_object(display);
+        // walls[i]->draw_object(display);
+        display->draw(*(walls[i]->get_body()));
     }
     for (int i = 0; i < breakable_walls.size(); i++)
     {
-        breakable_walls[i]->draw_object(display);
+        display->draw(*(breakable_walls[i]->get_body()));
     }
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i]->draw_object(display);
+        display->draw(*(enemies[i]->get_body()));
     }
     for (int i = 0; i < traps.size(); i++)
     {
-        traps[i]->draw_object(display);
+        display->draw(*(traps[i]->get_body()));
     }
     for (int i = 0; i < health_consumables.size(); i++)
     {
-        health_consumables[i]->draw_object(display);
+        display->draw(*(health_consumables[i]->get_body()));
     }
+    display->draw(*(entrance.get_body()));
+    display->draw(*(exit.get_body()));
+    display->display();
+    std::cout << "Drawn room" << std::endl;
 }
 
 // Passes a turn for all the enemies and traps in the room.
@@ -423,4 +436,5 @@ Room::~Room()
     {
         delete health_consumables[i];
     }
+    std::cout << "SuccessR" << std::endl;
 }

@@ -30,7 +30,7 @@ class DungeonFloor{
         void set_active_room(int room_num);
         bool testing_mouse_collision(sf::Vector2i mouse_pos);
         void run_dungeon();
-        void check_user_inputs(sf::Event event, sf::RenderWindow *window);
+        bool check_user_inputs(sf::Event event);
         void to_next_room();
         void to_previous_room();
         ~DungeonFloor();
