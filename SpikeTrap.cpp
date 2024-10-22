@@ -4,7 +4,7 @@
 SpikeTrap::SpikeTrap(int level, int max_cooldown, sf::Vector2f position) : Trap(level, level * 8, max_cooldown, square, 58, sf::Color(50, 50, 50), position) {}
 
 // Creates an inactive spike trap off-screen.
-SpikeTrap::SpikeTrap() : SpikeTrap(0, 0, sf::Vector2f(-1, -1))
+SpikeTrap::SpikeTrap() : SpikeTrap(0, 0, sf::Vector2f(-100, -100))
 {
     toggle_active();
 }
@@ -30,7 +30,7 @@ bool SpikeTrap::is_triggered(sf::Shape *body)
 {
     if (loaded && active && cooldown <= 0 && has_collided(body))
     {
-        body->setFillColor(sf::Color(127, 127, 127));
+        this->body->setFillColor(sf::Color(127, 127, 127));
         cooldown = max_cooldown;
         return true;
     }

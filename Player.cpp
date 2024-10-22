@@ -16,10 +16,10 @@ Player::Player(int level, int xp, int movement_speed, sf::Vector2f position) : E
 }
 
 // Initial level 1 player with given speed. Must set position afterwards.
-Player::Player(int movement_speed) : Player(1, 0, movement_speed, sf::Vector2f(-1, -1)) {}
+Player::Player(int movement_speed) : Player(1, 0, movement_speed, sf::Vector2f(-100, -100)) {}
 
 // Initial level 1 player with no speed. Must set position afterwards.
-Player::Player() : Player(1, 0, 0, sf::Vector2f(-1, -1)) {}
+Player::Player() : Player(1, 0, 0, sf::Vector2f(-100, -100)) {}
 
 // Move player to the right by their movement speed and rotate body to that direction.
 void Player::move_right()
@@ -78,11 +78,6 @@ void Player::dodge()
             break;
         }
         position = body->getPosition();
-        dodge_cooldown = 3;
-    }
-    else
-    {
-        std::cout << "Dodge is on cooldown for " << dodge_cooldown << " turns." << std::endl;
     }
 }
 
@@ -93,6 +88,7 @@ void Player::gain_xp(int xp_gained)
     if (xp >= 10 * level)
     {
         level++;
+        std::cout << "Level Up! You are now level " << level << "." << std::endl;
         xp = xp - (10 * (level - 1));
         if (xp > 10 * level)
         {
@@ -196,15 +192,26 @@ void Player::despawn_projectiles()
     }
 }
 
-// Draws player and all their projectiles onto given display.
-void Player::draw_object(sf::RenderWindow *display)
+// Returns body if loaded and alive. Also, returns any active projectiles' bodies.
+std::vector<sf::Shape *> Player::get_draw_objects()
 {
-    RoomObject::draw_object(display);
-    melee_attack.draw_object(display);
-    for (int i = 0; i < 3; i++)
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && alive)
     {
-        ranged_projectiles[i].draw_object(display);
+        drawable_objects.push_back(body);
+        if (melee_attack.is_active() == true)
+        {
+            drawable_objects.push_back(melee_attack.get_body());
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            if (ranged_projectiles[i].is_active() == true)
+            {
+                drawable_objects.push_back(ranged_projectiles[i].get_body());
+            }
+        }
     }
+    return drawable_objects;
 }
 
 int Player::get_melee_damage() { return melee_damage; }

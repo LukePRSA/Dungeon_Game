@@ -40,14 +40,14 @@ private:
     std::vector<Trap*> traps;
     std::vector<HealthConsumable*> health_consumables;
     Player *player;
-    RoomObject entrance;
+    RoomObject* entrance = nullptr;
     sf::Vector2f start_position;
-    RoomObject exit;
+    RoomObject* exit = nullptr;
     sf::Vector2f end_position;
     bool can_exit = false;
 
 public:
-    Room(const std::string &file_name, Player* player);
+    Room(const std::string &file_name, Player* player, int level_increase);
     std::vector<std::string> get_layout_room();
     Tile ***get_tiles();
 
@@ -69,6 +69,8 @@ public:
     std::vector<Enemy*> get_enemies();
     std::vector<Trap*> get_traps();
     std::vector<HealthConsumable*> get_health_consumables();
+    RoomObject* get_entrance();
+    RoomObject* get_exit();
 
     ~Room();
 };

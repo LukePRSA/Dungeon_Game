@@ -25,6 +25,7 @@ class DungeonFloor{
 
     public:
         DungeonFloor();
+        void spam_how_to_play();
         void draw_room();
         int get_active_room();
         void set_active_room(int room_num);

@@ -30,12 +30,15 @@ RoomObject::RoomObject(int length, int width, sf::Color colour, sf::Vector2f pos
 // Creates a 0-width white square.
 RoomObject::RoomObject() : RoomObject(square, 0, sf::Color(255, 255, 255), sf::Vector2f(0, 0)) {}
 
-// Draws object on given display.
-void RoomObject::draw_object(sf::RenderWindow *display)
+// Returns body if loaded.
+std::vector<sf::Shape *> RoomObject::get_draw_objects()
 {
-    display->draw(*body);
-    std::cout << body->getPosition().x << "," << body->getPosition().y << std::endl;
-    display->display();
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded)
+    {
+        drawable_objects.push_back(body);
+    }
+    return drawable_objects;
 }
 
 // Loads the object at its given position.
@@ -48,7 +51,7 @@ void RoomObject::load_object()
 // Unloads the object by moving it offscreen.
 void RoomObject::unload_object()
 {
-    body->setPosition(sf::Vector2f(-1, -1));
+    body->setPosition(sf::Vector2f(-100, -100));
     loaded = false;
 }
 
@@ -84,5 +87,4 @@ sf::Shape *RoomObject::get_body() { return body; }
 RoomObject::~RoomObject()
 {
     delete body;
-    std::cout << "SuccessRO" << std::endl;
 }

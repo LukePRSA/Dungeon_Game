@@ -1,10 +1,10 @@
 #include "Projectile.h"
 
 // Creates a circular/square projectile.
-Projectile::Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour) : RoomObject(shape, size, colour, sf::Vector2f(-1,-1)), movement_speed(speed), lifespan(lifespan) {}
+Projectile::Projectile(int speed, int lifespan, ShapeType shape, int size, sf::Color colour) : RoomObject(shape, size, colour, sf::Vector2f(-1, -1)), movement_speed(speed), lifespan(lifespan) {}
 
 // Creates a rectangular projectile.
-Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : RoomObject(length, width, colour, sf::Vector2f(-1,-1)), movement_speed(speed), lifespan(lifespan) {}
+Projectile::Projectile(int speed, int lifespan, int length, int width, sf::Color colour) : RoomObject(length, width, colour, sf::Vector2f(-1, -1)), movement_speed(speed), lifespan(lifespan) {}
 
 Projectile::Projectile() : RoomObject(), movement_speed(0), lifespan(0) {}
 
@@ -18,7 +18,7 @@ void Projectile::launch_projectile(Rotation direction, sf::Vector2f position)
 
         this->position = position;
         body->setPosition(position);
-        
+
         this->direction = direction;
         switch (direction)
         {
@@ -67,12 +67,12 @@ void Projectile::update()
     }
 }
 
-// Despawns projectile by moving it off-screen and setting its position to (-1, -1).
+// Despawns projectile by moving it off-screen and setting its position to (-100, -100).
 void Projectile::despawn_projectile()
 {
     active = false;
-    body->setPosition(-1, -1);
-    position = sf::Vector2f(-1, -1);
+    body->setPosition(-100, -100);
+    position = sf::Vector2f(-100, -100);
 }
 
 // Returns true if collided with body and active, also despawns projectile if true.
@@ -88,6 +88,17 @@ bool Projectile::has_collided(sf::Shape *body)
         return collided;
     }
     return false;
+}
+
+// Returns body if loaded and alive.
+std::vector<sf::Shape *> Projectile::get_draw_objects()
+{
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && active)
+    {
+        drawable_objects.push_back(body);
+    }
+    return drawable_objects;
 }
 
 RoomObject::Rotation Projectile::get_direction() { return direction; }

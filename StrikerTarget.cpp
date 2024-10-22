@@ -1,7 +1,7 @@
 #include "StrikerTarget.h"
 
 // Creates a translucent StrikerTarget off-screen for StrikerEnemy.
-StrikerTarget::StrikerTarget() : RoomObject(circle, 65, sf::Color(255, 255, 255, 127), sf::Vector2f(-1, -1))
+StrikerTarget::StrikerTarget() : RoomObject(circle, 65, sf::Color(255, 255, 255, 127), sf::Vector2f(-100, -100))
 {
     body->setOutlineColor(sf::Color(255, 255, 255, 127));
     body->setOutlineThickness(0);
@@ -55,10 +55,21 @@ void StrikerTarget::update_target()
 // Removes target by moving it off screen and deactivating it.
 void StrikerTarget::remove_target()
 {
-    body->setPosition(-1, -1);
+    body->setPosition(-100, -100);
     position = body->getPosition();
     active = false;
     deal_damage = false;
+}
+
+// Returns body if loaded and alive.
+std::vector<sf::Shape *> StrikerTarget::get_draw_objects()
+{
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && active)
+    {
+        drawable_objects.push_back(body);
+    }
+    return drawable_objects;
 }
 
 bool StrikerTarget::is_active() { return active; }

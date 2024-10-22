@@ -75,7 +75,7 @@ private:
             {
                 std::cout << "Test 2.2 (launch unloaded projectile, right direction) passed." << std::endl;
             }
-            if (projectile.get_position() != sf::Vector2f(-1, -1))
+            if (projectile.get_position() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 2.3 (launch unloaded projectile, attribute at position) failed." << std::endl;
             }
@@ -83,7 +83,7 @@ private:
             {
                 std::cout << "Test 2.3 (launch unloaded projectile, attribute at position) passed." << std::endl;
             }
-            if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
+            if (projectile.get_body()->getPosition() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 2.4 (launch unloaded projectile, body at position) failed." << std::endl;
             }
@@ -143,7 +143,7 @@ private:
             {
                 std::cout << "Test 4.1 (update projectile until it exceeds lifespan, turns_since_launch) passed." << std::endl;
             }
-            if (projectile.get_position() != sf::Vector2f(-1, -1))
+            if (projectile.get_position() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 4.2 (update projectile until it exceeds lifespan, expected position) failed." << std::endl;
             }
@@ -176,7 +176,7 @@ private:
             {
                 std::cout << "Test 5.1 (despawn launched projectile, turns_since_launch) passed." << std::endl;
             }
-            if (projectile.get_position() != sf::Vector2f(-1, -1))
+            if (projectile.get_position() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 5.2 (update projectile until it exceeds lifespan, expected position) failed." << std::endl;
             }
@@ -184,7 +184,7 @@ private:
             {
                 std::cout << "Test 5.2 (update projectile until it exceeds lifespan, expected position) passed." << std::endl;
             }
-            if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
+            if (projectile.get_body()->getPosition() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 5.3 (update projectile until it exceeds lifespan, expected body position) failed." << std::endl;
             }
@@ -213,7 +213,7 @@ private:
             body1.setPosition(25, 25);
             projectile.has_collided(&body1);
 
-            if (projectile.get_position() != sf::Vector2f(-1, -1))
+            if (projectile.get_position() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 6.1 (test collision, expected position) failed." << std::endl;
             }
@@ -221,7 +221,7 @@ private:
             {
                 std::cout << "Test 6.1 (test collision, expected position) passed." << std::endl;
             }
-            if (projectile.get_body()->getPosition() != sf::Vector2f(-1, -1))
+            if (projectile.get_body()->getPosition() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 6.2 (test collision, expected body position) failed." << std::endl;
             }

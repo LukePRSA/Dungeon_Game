@@ -6,6 +6,17 @@ Trap::Trap(int level, int damage, int max_cooldown, ShapeType shape, int width, 
 // Creates a default trap off-screen.
 Trap::Trap() : RoomObject(), level(0), damage(0), max_cooldown(0) {}
 
+// Returns body if loaded and alive.
+std::vector<sf::Shape *> Trap::get_draw_objects()
+{
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && active)
+    {
+        drawable_objects.push_back(body);
+    }
+    return drawable_objects;
+}
+
 int Trap::get_level() { return level; }
 
 void Trap::set_level(int level) { this->level = level; }

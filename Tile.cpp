@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Tile.h"
 
+// Creates tile at given position and sets its size to the given tile size.
 Tile::Tile(char val_at_pos)
 {
     this->tile_type = val_at_pos;
@@ -22,6 +23,7 @@ void Tile::set_fill_colour(sf::Color color)
 {
     tile_rect.setFillColor(color);
 }
+
 const sf::RectangleShape &Tile::get_shape() const
 {
     return tile_rect;
@@ -32,6 +34,7 @@ char Tile::get_type() const
     return tile_type;
 }
 
+// Returns centre position of tile.
 sf::Vector2f Tile::get_center_pos()
 {
     sf::Vector2f size = tile_rect.getSize();

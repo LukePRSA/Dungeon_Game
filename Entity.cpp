@@ -40,7 +40,18 @@ void Entity::kill_entity()
 {
     hp = 0;
     alive = false;
-    RoomObject::set_position(sf::Vector2f(-1, -1));
+    RoomObject::set_position(sf::Vector2f(-100, -100));
+}
+
+// Returns body if loaded and alive.
+std::vector<sf::Shape *> Entity::get_draw_objects()
+{
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && alive)
+    {
+        drawable_objects.push_back(body);
+    }
+    return drawable_objects;
 }
 
 int Entity::get_level() { return level; }

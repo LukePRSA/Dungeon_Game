@@ -21,6 +21,8 @@ public:
     void heal_hp(int hp_healed);
     virtual void kill_entity();
 
+    std::vector<sf::Shape *> get_draw_objects();
+
     int get_level();
     void set_level(int level);
     int get_xp();

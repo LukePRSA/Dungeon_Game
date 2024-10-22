@@ -19,7 +19,7 @@ public:
 
     void load_object();
     void unload_object();
-    void draw_object(sf::RenderWindow *display);
+    std::vector<sf::Shape*> get_draw_objects();
 
     StrikerTarget *get_target();
 };

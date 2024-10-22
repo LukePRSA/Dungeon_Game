@@ -23,7 +23,7 @@ public:
 
     void load_object();
     void unload_object();
-    void draw_object(sf::RenderWindow *display);
+    std::vector<sf::Shape*> get_draw_objects();
 
     Projectile *get_melee_attack();
     int get_movement_speed();

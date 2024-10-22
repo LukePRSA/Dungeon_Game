@@ -22,6 +22,7 @@ public:
     void despawn_projectile();
 
     bool has_collided(sf::Shape *body);
+    std::vector<sf::Shape *> get_draw_objects();
 
     Rotation get_direction();
     void set_direction(Rotation direction);

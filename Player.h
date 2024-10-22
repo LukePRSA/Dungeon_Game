@@ -40,7 +40,7 @@ public:
     void update();
     void despawn_projectiles();
 
-    void draw_object(sf::RenderWindow *display);
+    std::vector<sf::Shape *> get_draw_objects();
 
     int get_melee_damage();
     void set_melee_damage(int damage);

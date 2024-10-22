@@ -8,17 +8,43 @@
 #include <iostream>
 #include "DungeonFloor.h"
 
+// Creates dungeon floor, its rooms and player then loads the active 1st room.
 DungeonFloor::DungeonFloor() : active_room(0), player(TILE_SIZE_TO_PIXELS)
 {
-
     floor_one = new Room *[NUM_ROOMS_PER_FLOOR];
 
+    // uses file data to individually create each room
     const std::string file_path_rooms[NUM_ROOMS_PER_FLOOR] = {"floor_layout/1.txt", "floor_layout/2.txt", "floor_layout/3.txt", "floor_layout/4.txt", "floor_layout/5.txt"};
-    for (int i = 0; i < NUM_ROOMS_PER_FLOOR; i++)
-    {
-        floor_one[i] = new Room(file_path_rooms[i], &player);
-    }
+    floor_one[0] = new Room(file_path_rooms[0], &player, 0);
+    floor_one[1] = new Room(file_path_rooms[1], &player, 0);
+    floor_one[2] = new Room(file_path_rooms[2], &player, 1);
+    floor_one[3] = new Room(file_path_rooms[3], &player, 1);
+    floor_one[4] = new Room(file_path_rooms[4], &player, 2);
+
     floor_one[active_room]->load_objects(false);
+
+    std::cout << "Basic Dungeon Game." << std::endl;
+}
+
+// Displays all info about game.
+void DungeonFloor::spam_how_to_play()
+{
+    std::cout << std::endl;
+    std::cout << "Tutorial" << std::endl;
+    std::cout << "Aim: reach end of game (last room) without dying." << std::endl;
+    std::cout << "Player is a teal circle. WASD to move. Space to dodge in direction." << std::endl;
+    std::cout << "O to melee attack, P to ranged attack, N to bring up tutorial." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Enemies block your path and attack you. Defeat all of them in a room to progress." << std::endl;
+    std::cout << "Melee enemies (orange circles) approach player and attack." << std::endl;
+    std::cout << "Striker enemies (yellow squares) summon strikes from the sky." << std::endl;
+    std::cout << "Basic boss (red circle) appears in last room and has a multitude of attacks. Beware!" << std::endl;
+    std::cout << std::endl;
+    std::cout << "Be careful! There are traps present throughout the dungeon." << std::endl;
+    std::cout << "Arrow traps (light grey squares) shoot brown arrows periodically." << std::endl;
+    std::cout << "Spike traps (dark grey squares) trigger when stepped on." << std::endl;
+    std::cout << "There are also health consumables (green circles) that heal hp throughout the dungeon." << std::endl;
+    std::cout << "Good luck!" << std::endl << std::endl;
 }
 
 // unused? for testing?
@@ -101,7 +127,8 @@ bool DungeonFloor::testing_mouse_collision(sf::Vector2i mouse_pos)
 // Dungeon loop going through user inputs then allowing everything in the room update and collisions to be detected.
 void DungeonFloor::run_dungeon()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Template");
+    spam_how_to_play();
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Dungeon");
     floor_one[active_room]->draw_objects(&window);
 
     while (window.isOpen())
@@ -113,24 +140,39 @@ void DungeonFloor::run_dungeon()
             {
                 window.close();
             }
-            
+
             if (check_user_inputs(event) == true)
             {
                 player.update();
                 floor_one[active_room]->pass_turn();
                 if (floor_one[active_room]->can_player_exit() && floor_one[active_room]->has_collided_with_exit())
                 {
-                    to_next_room();
-                    if (active_room == NUM_ROOMS_PER_FLOOR)
+                    if (active_room == NUM_ROOMS_PER_FLOOR - 1)
                     {
-                        std::cout << "Last room, reach exit to win!" << std::endl;
+                        std::cout << "Treasure obtained! Dungeon Complete!" << std::endl;
+                        complete = true;
+                    }
+                    else
+                    {
+                        to_next_room();
+                        if (active_room == NUM_ROOMS_PER_FLOOR - 1)
+                        {
+                            std::cout << "Last room, reach exit to win!" << std::endl;
+                        }
                     }
                 }
                 else if (floor_one[active_room]->has_collided_with_entrance())
                 {
                     to_previous_room();
                 }
+                window.clear();
                 floor_one[active_room]->draw_objects(&window);
+
+                if (player.is_alive() == false)
+                {
+                    std::cout << "Player has died! Game over!" << std::endl;
+                    complete = true;
+                }
             }
         }
     }
@@ -201,6 +243,11 @@ bool DungeonFloor::check_user_inputs(sf::Event event)
                         }
                     }
                 }
+                player.set_dodge_cooldown(player.get_max_dodge_cooldown());
+            }
+            else
+            {
+                std::cout << "Dodge is on cooldown for " << player.get_dodge_cooldown() << " turns." << std::endl;
             }
             return true;
             break;
@@ -211,6 +258,9 @@ bool DungeonFloor::check_user_inputs(sf::Event event)
         case sf::Keyboard::P:
             player.attack_long();
             return true;
+            break;
+        case sf::Keyboard::N:
+            spam_how_to_play();
             break;
         default:
             break;
@@ -248,7 +298,8 @@ DungeonFloor::~DungeonFloor()
     for (int i = 0; i < NUM_ROOMS_PER_FLOOR; ++i)
     {
         delete floor_one[i];
+        // std::cout << "Deleted Room " << i + 1 << std::endl;
     }
     delete[] floor_one;
-    std::cout << "SuccessDF" << std::endl;
+    // std::cout << "Deleted Dungeon Floor" << std::endl;
 }

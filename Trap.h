@@ -21,6 +21,8 @@ public:
     virtual bool is_triggered(sf::Shape *body) = 0;
     virtual void toggle_active() = 0;
 
+    virtual std::vector<sf::Shape*> get_draw_objects();
+
     int get_level();
     void set_level(int level);
     int get_damage();

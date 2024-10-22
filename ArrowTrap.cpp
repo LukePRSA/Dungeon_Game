@@ -21,7 +21,7 @@ ArrowTrap::ArrowTrap(int level, int max_cooldown, int projectile_speed, Rotation
 }
 
 // Creates an inactive arrow trap off-screen in the right direction.
-ArrowTrap::ArrowTrap() : ArrowTrap(0, 0, 0, right, sf::Vector2f(-1, -1))
+ArrowTrap::ArrowTrap() : ArrowTrap(0, 0, 0, right, sf::Vector2f(-100, -100))
 {
     toggle_active();
 }
@@ -111,14 +111,21 @@ void ArrowTrap::unload_object()
     }
 }
 
-// Draws arrow trap and its arrows.
-void ArrowTrap::draw_object(sf::RenderWindow *display)
+// Returns body if loaded and alive. Also, returns any active projectile's bodies.
+std::vector<sf::Shape *> ArrowTrap::get_draw_objects()
 {
-    Trap::draw_object(display);
-    for (int i = 0; i < 5; i++)
+    std::vector<sf::Shape *> drawable_objects = Trap::get_draw_objects();
+    if (loaded && active)
     {
-        arrows[i].draw_object(display);
+        for (int i = 0; i < 5; i++)
+        {
+            if (arrows[i].is_active() == true)
+            {
+                drawable_objects.push_back(arrows[i].get_body());
+            }
+        }
     }
+    return drawable_objects;
 }
 
 Projectile *ArrowTrap::get_arrow() { return arrows; }

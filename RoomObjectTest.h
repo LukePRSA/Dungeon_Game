@@ -51,7 +51,7 @@ private:
         RoomObject room_object(RoomObject::ShapeType::square, 50, sf::Color(0, 0, 0), sf::Vector2f(50, 50));
         room_object.load_object();
         room_object.unload_object();
-        if (room_object.get_body()->getPosition() != sf::Vector2f(-1, -1))
+        if (room_object.get_body()->getPosition() != sf::Vector2f(-100, -100))
         {
             std::cout << "Test 2.1 (unload object, position of body) failed." << std::endl;
         }
@@ -136,7 +136,7 @@ private:
             {
                 std::cout << "Test 6.1 (changing position of unloaded object, position attribute) passed." << std::endl;
             }
-            if (room_object.get_body()->getPosition() != sf::Vector2f(-1, -1))
+            if (room_object.get_body()->getPosition() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 6.2 (changing position of unloaded object, body position) failed." << std::endl;
             }

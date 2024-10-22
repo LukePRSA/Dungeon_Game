@@ -251,7 +251,7 @@ private:
             {
                 std::cout << "Test 9.2 (killing entity, hp) passed." << std::endl;
             }
-            if (entity.get_position() != sf::Vector2f(-1, -1))
+            if (entity.get_position() != sf::Vector2f(-100, -100))
             {
                 std::cout << "Test 9.3 (killing entity, attribute position) failed." << std::endl;
             }

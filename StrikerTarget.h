@@ -17,6 +17,8 @@ public:
     void update_target();
     void remove_target();
 
+    std::vector<sf::Shape*> get_draw_objects();
+
     bool is_active();
     void set_active(bool active);
     bool can_deal_damage();

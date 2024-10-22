@@ -1,7 +1,7 @@
 #include "BasicBoss.h"
 
 // Creates boss with red circle and orange outline and an array of pointers to minions. Hp is ten times level.
-BasicBoss::BasicBoss(int level, int max_cooldown, int max_range, int movement_speed, sf::Vector2f position): MeleeEnemy(level, max_cooldown, max_range, movement_speed, position), base_damage(damage)
+BasicBoss::BasicBoss(int level, int max_cooldown, int max_range, int movement_speed, sf::Vector2f position) : MeleeEnemy(level, max_cooldown, max_range, movement_speed, position), base_damage(damage)
 {
     body->setFillColor(sf::Color(255, 0, 0));
     body->setOutlineColor(sf::Color(255, 127, 0));
@@ -10,7 +10,7 @@ BasicBoss::BasicBoss(int level, int max_cooldown, int max_range, int movement_sp
 }
 
 // Creates a default lvl 0 boss off-screen.
-BasicBoss::BasicBoss(): BasicBoss(0, 0, 0, 0, sf::Vector2f(-1,-1)) {}
+BasicBoss::BasicBoss() : BasicBoss(0, 0, 0, 0, sf::Vector2f(-1, -1)) {}
 
 // Launches projectile in current direction if there are any currently inactive projectiles.
 void BasicBoss::launch_projectile()
@@ -44,9 +44,10 @@ void BasicBoss::perform_ai(sf::Vector2f player_position)
                 if (random_number == 0)
                 {
                     launch_projectile();
-                } else
+                }
+                else
                 {
-                approach_player(find_distance_vector(player_position));
+                    approach_player(find_distance_vector(player_position));
                 }
             }
         }
@@ -102,17 +103,24 @@ void BasicBoss::unload_object()
     }
 }
 
-// Draws boss and all its projectiles.
-void BasicBoss::draw_object(sf::RenderWindow *display)
+// Returns body if loaded and alive. Also, returns any active projectiles' bodies.
+std::vector<sf::Shape *> BasicBoss::get_draw_objects()
 {
-    MeleeEnemy::draw_object(display);
-    for (int i = 0; i < 2; i++)
+    std::vector<sf::Shape *> drawable_objects = MeleeEnemy::get_draw_objects();
+    if (loaded && alive)
     {
-        ranged_attacks[i].draw_object(display);
+        for (int i = 0; i < 2; i++)
+        {
+            if (ranged_attacks[i].is_active() == true)
+            {
+                drawable_objects.push_back(ranged_attacks[i].get_body());
+            }
+        }
     }
+    return drawable_objects;
 }
 
-Projectile* BasicBoss::get_ranged_attacks() { return ranged_attacks; }
+Projectile *BasicBoss::get_ranged_attacks() { return ranged_attacks; }
 
 int BasicBoss::get_base_damage() { return base_damage; }
 

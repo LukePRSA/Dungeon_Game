@@ -2,6 +2,7 @@
 #define ROOM_OBJECT_H
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 // General object in room, e.g. walls, exits and entrances.
 class RoomObject
@@ -30,7 +31,7 @@ public:
     RoomObject(ShapeType shape, int size, sf::Color colour, sf::Vector2f position);
     RoomObject(int length, int width, sf::Color colour, sf::Vector2f position);
     RoomObject();
-    virtual void draw_object(sf::RenderWindow *display);
+    virtual std::vector<sf::Shape *> get_draw_objects();
     virtual void load_object();
     virtual void unload_object();
     virtual bool has_collided(sf::Shape *body);

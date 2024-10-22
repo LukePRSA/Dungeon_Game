@@ -4,7 +4,7 @@
 MeleeEnemy::MeleeEnemy(int level, int max_cooldown, int max_range, int movement_speed, sf::Vector2f position) : Enemy(level * 3, max_cooldown, max_range, level, level * 3, level * 5, circle, 50, sf::Color(255, 64, 0), position), movement_speed(movement_speed) {}
 
 // Creates a default MeleeEnemy off-screen that cannot move.
-MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, 0, sf::Vector2f(-1, -1)) {}
+MeleeEnemy::MeleeEnemy() : MeleeEnemy(0, 0, 0, 0, sf::Vector2f(-100, -100)) {}
 
 // Approaches player using the shortest distance that is above or equal to its movement speed.
 void MeleeEnemy::approach_player(sf::Vector2f player_distance_vector)
@@ -116,11 +116,19 @@ void MeleeEnemy::unload_object()
     melee_attack.unload_object();
 }
 
-// Draws enemy and its projectiles on the screen
-void MeleeEnemy::draw_object(sf::RenderWindow *display)
+// Returns body if loaded and alive. Also, returns melee attack body if active.
+std::vector<sf::Shape *> MeleeEnemy::get_draw_objects()
 {
-    Enemy::draw_object(display);
-    melee_attack.draw_object(display);
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && alive)
+    {
+        drawable_objects.push_back(body);
+        if (melee_attack.is_active() == true)
+        {
+            drawable_objects.push_back(melee_attack.get_body());
+        }
+    }
+    return drawable_objects;
 }
 
 Projectile *MeleeEnemy::get_melee_attack() { return &melee_attack; }

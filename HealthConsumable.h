@@ -15,6 +15,7 @@ public:
     HealthConsumable();
     bool has_collided(sf::Shape *body);
     void destroy_consumable();
+    std::vector<sf::Shape *> get_draw_objects();
 
     int get_health_bonus_percentage();
     void set_health_bonus_percentage(int percentage);

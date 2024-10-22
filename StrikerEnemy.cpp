@@ -4,7 +4,7 @@
 StrikerEnemy::StrikerEnemy(int level, int max_cooldown, int max_range, sf::Vector2f position): Enemy(level * 6, max_cooldown, max_range, level, level * 4, level * 7, square, 50, sf::Color(255, 255, 0), position) {}
 
 // Creates a striker enemy off screen.
-StrikerEnemy::StrikerEnemy() : StrikerEnemy(0, 0, 0, sf::Vector2f(-1, -1)) {}
+StrikerEnemy::StrikerEnemy() : StrikerEnemy(0, 0, 0, sf::Vector2f(-100, -100)) {}
 
 // If loaded, the player is within max range and the attack cooldown is 0 or less, places a target on the enemy.
 void StrikerEnemy::perform_ai(sf::Vector2f player_position)
@@ -56,11 +56,19 @@ void StrikerEnemy::unload_object()
     target.unload_object();
 }
 
-// Draws enemy and its target.
-void StrikerEnemy::draw_object(sf::RenderWindow *display)
+// Returns body if loaded and alive. Also, returns striker target body if active.
+std::vector<sf::Shape *> StrikerEnemy::get_draw_objects()
 {
-    Enemy::draw_object(display);
-    target.draw_object(display);
+    std::vector<sf::Shape *> drawable_objects;
+    if (loaded && alive)
+    {
+        drawable_objects.push_back(body);
+        if (target.is_active() == true)
+        {
+            drawable_objects.push_back(target.get_body());
+        }
+    }
+    return drawable_objects;
 }
 
 StrikerTarget *StrikerEnemy::get_target() { return &target; }

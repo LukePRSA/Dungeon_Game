@@ -21,3 +21,5 @@ added has_hit pure virtual function to Enemy classes to seperate it from has_col
 due to inconveniences with attempting collisions and polymorphism in a limited amount of time, minions array was removed from the boss. Replace by minions spawning in the room alongside the boss.
 
 made Boss class inherit from MeleeEnemy since they use similar functions. The perform_ai function alongside others were overridden to fit the projectile attack.
+
+replaced draw_object with get_draw_objects to fix scope problem of drawing objects in a class function causing them to not actually draw on the render window
